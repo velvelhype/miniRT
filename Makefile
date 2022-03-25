@@ -2,9 +2,11 @@ NAME = miniRT
 
 CC = gcc
 
-CFLAGS = -O3 -Iinclude
+CFLAGS = -O3 -Iparser libmlx.dylib
 # CFLAGS = -O3 -Werror -Wall -Wextra -g -fsanitize=address -Iinclude
-SRCS = src/main.c
+SRCS = src/main.c \
+	src/parser/dummy_parse.c \
+	src/drawer/draw.c \
 
 OBJS = $(SRCS:.c=.o)
 
