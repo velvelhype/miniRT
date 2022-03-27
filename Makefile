@@ -2,12 +2,17 @@ NAME = miniRT
 
 CC = gcc
 
-CFLAGS = -O3 -Isrc/parser -Isrc/drawer -Isrc/minilibx \
-		-Isrc \
+CFLAGS = -O3 \
+		-Isrc -Isrc/parser -Isrc/render -Isrc/minilibx \
+		-Isrc/vector -Isrc/ternary_operation\
 # CFLAGS = -O3 -Werror -Wall -Wextra -g -fsanitize=address -Iinclude
+
 SRCS = src/main.c \
 	src/parser/dummy_parse.c \
-	src/drawer/draw.c \
+	src/render/render.c \
+	src/render/detect_colision.c \
+	src/vector/vector.c \
+	src/vector/vector_operations.c \
 
 OBJS = $(SRCS:.c=.o)
 

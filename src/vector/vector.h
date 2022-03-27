@@ -1,7 +1,7 @@
 #ifndef VECTOR_H
 # define VECTOR_H
-
-# include "simple_operation.h"
+//TODO float to double
+# include "ternary_operation.h"
 
 typedef struct s_vector
 {
