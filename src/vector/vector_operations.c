@@ -20,7 +20,7 @@ t_vector	sub_vecs(const t_vector *a, const t_vector *b)
 	return (ret);
 }
 
-t_vector	mult_vecs(const t_vector *a, float b)
+t_vector	mult_vecs(const t_vector *a, double b)
 {
 	t_vector	ret;
 
@@ -30,7 +30,7 @@ t_vector	mult_vecs(const t_vector *a, float b)
 	return (ret);
 }
 
-float	dot_vecs(const t_vector *a, const t_vector *b)
+double	dot_vecs(const t_vector *a, const t_vector *b)
 {
 	return (a->x * b->x + a->y * b->y + a->z * b->z);
 }

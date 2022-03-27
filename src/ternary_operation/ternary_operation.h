@@ -1,8 +1,8 @@
 #ifndef TERNARY_OPERATION_H
 # define TERNARY_OPERATION_H
 
-float	max(float a, float b);
-float	min(float a, float b);
-float	mod(float val);
+double	max(double a, double b);
+double	min(double a, double b);
+double	mod(double val);
 
 #endif
