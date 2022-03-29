@@ -1,6 +1,6 @@
 #include "simple_operation.h"
 
-float	max(float a, float b)
+double	max(double a, double b)
 {
 	if (a > b)
 		return (a);
@@ -8,7 +8,7 @@ float	max(float a, float b)
 		return (b);
 }
 
-float	min(float a, float b)
+double	min(double a, double b)
 {
 	if (a < b)
 		return (a);
@@ -16,7 +16,7 @@ float	min(float a, float b)
 		return (b);
 }
 
-float	mod(float val)
+double	mod(double val)
 {
 	if (val < 0)
 		return (-val);
