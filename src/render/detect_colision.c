@@ -5,7 +5,7 @@
 void	make_screen_point(t_vector *screen_point, t_coord *coords, int x, int y)
 {
 	init_vector(screen_point, 0, 0, 0);
-	add_vecs(screen_point, &coords->sc_bot_left);
+	*screen_point = add_vecs(screen_point, &coords->sc_bot_left);
 	t_vector mult;
 	mult = mult_vecs(&coords->sc_diff_x, x);
 	*screen_point = add_vecs(screen_point, &mult);
@@ -31,7 +31,7 @@ double	detect_colision(t_rt *rt_info, int x, int y)
 	t_vector cam_dir = make_camdir(&rt_info->coords, x, y);
 	// detect_colision to all objs
 	// Lv1:cam_dir and sphere
-	colide_ray_and_objs(&cam_dir, &rt_info->coords, &rt_info->objs);
+	return (colide_ray_and_objs(&cam_dir, &rt_info->coords, &rt_info->objs));
 	// Lv2:with shadow
 	// Lv3:with light
 	// Lv4:with color
