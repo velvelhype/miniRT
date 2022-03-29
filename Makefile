@@ -11,8 +11,10 @@ SRCS = src/main.c \
 	src/parser/dummy_parse.c \
 	src/render/render.c \
 	src/render/detect_colision.c \
+	src/render/colide_ray_and_objs.c \
 	src/vector/vector.c \
 	src/vector/vector_operations.c \
+	src/vector/vector_debug.c \
 
 OBJS = $(SRCS:.c=.o)
 

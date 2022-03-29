@@ -19,5 +19,6 @@ void		cross_vecs(t_vector *o, const t_vector *a, const t_vector *b);
 double		squared_norm(const t_vector *v);
 double		norm(const t_vector *v);
 double		normalize(t_vector *v);
+void		print_vecs(t_vector *vec);
 
 #endif
