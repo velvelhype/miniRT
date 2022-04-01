@@ -15,6 +15,7 @@ SRCS = src/main.c \
 	src/vector/vector.c \
 	src/vector/vector_operations.c \
 	src/vector/vector_debug.c \
+	src/ternary_operation/ternary_operation.c
 
 OBJS = $(SRCS:.c=.o)
 
