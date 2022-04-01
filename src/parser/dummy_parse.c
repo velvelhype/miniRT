@@ -20,7 +20,7 @@ void	dummy_init_objs(t_objs *objs)
 	objs->spheres = NULL;
 	objs->spheres = (t_sphere *)malloc(sizeof(t_sphere) * 2);
 	init_vector(&(objs->spheres)[0].coord, 0, 0, 10);
-	(objs->spheres)[0].diameter = 9;
+	(objs->spheres)[0].diameter = 9.8;
 	// (objs->spheres)[0].color;
 	(objs->spheres)[1].is_end = 1;
 	objs->planes = NULL;

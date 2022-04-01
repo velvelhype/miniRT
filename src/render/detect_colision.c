@@ -25,17 +25,28 @@ t_vector make_camdir(t_coord *coords, int x, int y)
 	return (cam_dir);
 }
 
-double	detect_colision(t_rt *rt_info, int x, int y)
+int	detect_reflection(t_rt *rt_info, int x, int y)
 {
 	// printf("detect colision\n");
 	t_vector cam_dir = make_camdir(&rt_info->coords, x, y);
-	// detect_colision to all objs
+	// detect_reflection to all objs
 	// Lv1:cam_dir and sphere
-	return (colide_ray_and_objs(&cam_dir, &rt_info->coords, &rt_info->objs));
-	// Lv2:with shadow
-	// Lv3:with light
-	// Lv4:with color
-	// Lv5:multiple sphere
+	t_front_point intersection = colide_ray_and_objs(&cam_dir, &rt_info->coords, &rt_info->objs);
+	// TODO shading
+	// make_color();
+	if (intersection.length)
+	{
+		//TODO ライティング適当すぎる
+		cam_dir = mult_vecs(&cam_dir, -1);
+		normalize(&cam_dir);
+		// 0xFF00 * dot_vecs(intersection.reflec_dir, cam_dir);
+		printf("%f\n", dot_vecs(&intersection.reflec_dir, &cam_dir));
+		return (-100000001 * dot_vecs(&intersection.reflec_dir, &cam_dir));
+	}
+	// TODO shadowing
+	// Lv2:lighting
+	// Lv3:with color
+	// Lv4:multiple sphere
 	// back forefront info
 	return 0;
 }

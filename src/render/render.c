@@ -36,15 +36,9 @@ void	render(t_rt *rt_info)
 	{
 		while (x < rt_info->coords.max_width)
 		{
-			int	reflection;
-			reflection = detect_colision(rt_info, x, y);
-			if (reflection)
-			{
-				// make_color(reflection);
-				mlx_pixel_put(rt_info->mlx_config.mlx_ptr, rt_info->mlx_config.win_ptr, x, y, 0xFF);
-			}
-			else
-				mlx_pixel_put(rt_info->mlx_config.mlx_ptr, rt_info->mlx_config.win_ptr, x, y, 0x0);
+			double	color;
+			color = detect_reflection(rt_info, x, y);
+			mlx_pixel_put(rt_info->mlx_config.mlx_ptr, rt_info->mlx_config.win_ptr, x, y, color);
 			x++;
 		}
 		x = 0;
