@@ -27,9 +27,21 @@ void	dummy_init_objs(t_objs *objs)
 	objs->cylinders = NULL;
 }
 
+// void	dummy_init_lights(t_lights *lights)
+// {
+// 	lights = (t_lights *)malloc(sizeof(t_lights) * 2);
+// 	init_vector(&(lights[0]).coord, 0, 0, -100);
+// 	lights[0].br_ratio = 1;
+// 	lights[1].is_end = TRUE;
+// 	// print_vecs(&lights[0].coord);
+// }
+
 void	dummy_parse(t_rt *rt_info)
 {
 	printf("dummy_parse\n");
 	dummy_init_coord(&rt_info->coords);
 	dummy_init_objs(&rt_info->objs);
+	// dummy_init_lights(rt_info->lights);
+	rt_info->lights = (t_lights *)malloc(sizeof(t_lights) * 2);
+	init_vector(&rt_info->lights[0].coord, -0.5, -0.5, 0);
 }

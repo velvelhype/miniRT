@@ -36,12 +36,33 @@ int	detect_reflection(t_rt *rt_info, int x, int y)
 	// make_color();
 	if (intersection.length)
 	{
-		//TODO ライティング適当すぎる
-		cam_dir = mult_vecs(&cam_dir, -1);
-		normalize(&cam_dir);
-		// 0xFF00 * dot_vecs(intersection.reflec_dir, cam_dir);
-		printf("%f\n", dot_vecs(&intersection.reflec_dir, &cam_dir));
-		return (-100000001 * dot_vecs(&intersection.reflec_dir, &cam_dir));
+		// TODO lighting
+		// while(lights[i])
+		// print_vecs(&rt_info->lights->coord);
+		int	light = 0;
+		//TODO amb
+		light += 50;
+		//TODO diffuse
+		//FIXME well i'm gonna dev this boy first
+		//TODO specular
+		//FIXME bugged
+		t_vector light_dir;
+		light_dir = sub_vecs(&rt_info->lights[0].coord, &intersection.coord);
+		// light_dir = mult_vecs(&light_dir, -1);
+		normalize(&light_dir);
+		
+		double dot = dot_vecs(&intersection.reflec_dir, &light_dir);
+		if (dot > 1)
+			dot = 1;
+		if (dot < 0)
+			dot = 0;
+		printf("dot:%f\n", dot);
+		if (dot > 0)
+			light += dot * 150;
+	
+		// 0xFF00 * dot_vecs(intersection.reflec_dir, light_dir);
+		// printf("%f\n", dot_vecs(&intersection.reflec_dir, &light_dir));
+		return (light);
 	}
 	// TODO shadowing
 	// Lv2:lighting

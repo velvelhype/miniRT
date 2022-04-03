@@ -2,6 +2,8 @@
 # define MINIRT_H
 
 #define epsilon 0.001
+#define TRUE 1
+#define FALSE 0
 
 #include <stdio.h>
 #include "vector.h"
@@ -73,8 +75,9 @@ typedef struct s_objs
 
 typedef struct s_lights
 {
-	t_vector	coord;
+	bool	is_end;
 	double	br_ratio;
+	t_vector	coord;
 	t_color	color;
 } t_lights;
 
@@ -83,7 +86,7 @@ typedef struct s_rt
 	t_coord coords;
 	t_mlx	mlx_config;
 	t_objs	objs;
-	t_lights lights;
+	t_lights *lights;
 } t_rt;
 
 #endif
