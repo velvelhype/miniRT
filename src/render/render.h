@@ -8,6 +8,7 @@ typedef struct s_front_point
 	double		length;
 	t_vector	coord;
 	t_vector	reflec_dir;
+	t_vector	cam_dir;
 } t_front_point;
 
 void	render(t_rt *rt_info);

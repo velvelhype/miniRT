@@ -18,11 +18,14 @@ void	dummy_init_coord(t_coord *coord)
 void	dummy_init_objs(t_objs *objs)
 {
 	objs->spheres = NULL;
-	objs->spheres = (t_sphere *)malloc(sizeof(t_sphere) * 2);
-	init_vector(&(objs->spheres)[0].coord, 0, 0, 10);
+	objs->spheres = (t_sphere *)malloc(sizeof(t_sphere) * 3);
+	init_vector(&(objs->spheres)[0].coord, 1, 1, 10);
 	(objs->spheres)[0].diameter = 9.8;
+	init_vector(&(objs->spheres)[1].coord, -1, -1, 10);
+	(objs->spheres)[1].diameter = 9.8;
+	(objs->spheres)[1].is_end = 0;
 	// (objs->spheres)[0].color;
-	(objs->spheres)[1].is_end = 1;
+	(objs->spheres)[2].is_end = 1;
 	objs->planes = NULL;
 	objs->cylinders = NULL;
 }
@@ -43,5 +46,5 @@ void	dummy_parse(t_rt *rt_info)
 	dummy_init_objs(&rt_info->objs);
 	// dummy_init_lights(rt_info->lights);
 	rt_info->lights = (t_lights *)malloc(sizeof(t_lights) * 2);
-	init_vector(&rt_info->lights[0].coord, -0.5, -0.5, 0);
+	init_vector(&rt_info->lights[0].coord, -0.0, -0.5, -0);
 }
