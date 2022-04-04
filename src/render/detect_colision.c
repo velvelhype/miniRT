@@ -25,6 +25,15 @@ t_vector make_camdir(t_coord *coords, int x, int y)
 	return (cam_dir);
 }
 
+double	clamp(double val)
+{
+	if (val > 1)
+		val = 1;
+	if (val < 0)
+		val = 0;
+	return (val);
+}
+
 int	detect_reflection(t_rt *rt_info, int x, int y)
 {
 	// printf("detect colision\n");
@@ -40,34 +49,44 @@ int	detect_reflection(t_rt *rt_info, int x, int y)
 		// while(lights[i])
 		// print_vecs(&rt_info->lights->coord);
 		int	light = 0;
-		//TODO amb
+		// amb
 		light += 50;
-		//TODO diffuse
-		//FIXME well i'm gonna dev this boy first
-		//TODO specular
-		//FIXME bugged
+		//TODO diffuse : It looks well...
 		t_vector light_dir;
 		light_dir = sub_vecs(&rt_info->lights[0].coord, &intersection.coord);
 		// light_dir = mult_vecs(&light_dir, -1);
 		normalize(&light_dir);
-		
 		double dot = dot_vecs(&intersection.reflec_dir, &light_dir);
-		if (dot > 1)
-			dot = 1;
-		if (dot < 0)
-			dot = 0;
-		printf("dot:%f\n", dot);
+		dot = clamp(dot);
+		// printf("dot:%f\n", dot);
 		if (dot > 0)
-			light += dot * 150;
-	
-		// 0xFF00 * dot_vecs(intersection.reflec_dir, light_dir);
+			light += dot * 100;
 		// printf("%f\n", dot_vecs(&intersection.reflec_dir, &light_dir));
+		//TODO specular
+		if (dot > 0)
+		{
+			t_vector	ref_dir;
+			t_vector	inv_cam_dir;
+			double		vr_dot;
+
+			ref_dir = mult_vecs(&intersection.reflec_dir, dot * 2);
+			ref_dir = sub_vecs(&ref_dir, &light_dir);
+			normalize(&ref_dir);
+
+			inv_cam_dir = mult_vecs(&cam_dir, -1);
+			normalize(&inv_cam_dir);
+			vr_dot = dot_vecs(&inv_cam_dir, &ref_dir);
+			vr_dot = clamp(vr_dot);
+			double shininess = 4;
+			double lum_spe = pow(vr_dot, shininess);
+			// printf("%f\n", lum_spe);
+			light += 100 * lum_spe;
+		}
+
 		return (light);
 	}
 	// TODO shadowing
-	// Lv2:lighting
 	// Lv3:with color
 	// Lv4:multiple sphere
-	// back forefront info
 	return 0;
 }
