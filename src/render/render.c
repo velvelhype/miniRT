@@ -18,7 +18,7 @@ void	make_screen(t_coord	*coords)
 	// printf("%d\n", coords->cam_FOV);
 	// print_vecs(&cam_pos_to_sc_center_dir);
 	printf("dummy_make_screen\n");
-	init_vector(&coords->sc_bot_left, -200, -200, 10);
+	init_vector(&coords->sc_bot_left, -200, -200, 20);
 	init_vector(&coords->sc_diff_x, 1, 0, 0);
 	init_vector(&coords->sc_diff_y, 0, 1, 0);
 }
