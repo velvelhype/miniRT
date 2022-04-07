@@ -1,4 +1,4 @@
-#include "ternary_operation.h"
+#include "simple_operation.h"
 
 double	max(double a, double b)
 {
