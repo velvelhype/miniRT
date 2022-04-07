@@ -72,11 +72,10 @@ t_front_point	colide_cam_ray_and_plane(t_vector cam_dir, t_coord *coords, t_plan
 
 t_front_point	colide_ray_and_objs(t_vector *cam_dir, t_coord *coords, t_objs	*objs)
 {
-	//colide with all objs
 	t_front_point nearest_front;
 	t_front_point new_front;
+ 
 	nearest_front.length = 0;
-
 	int i = 0;
 	while (objs->spheres[i].is_end == false)
 	{
