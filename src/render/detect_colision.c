@@ -13,7 +13,7 @@ void	make_screen_point(t_vector *screen_point, t_coord *coords, int x, int y)
 	*screen_point =  add_vecs(screen_point, &mult);
 }
 
-t_vector make_camdir(t_coord *coords, int x, int y)
+t_vector make_cam_dir(t_coord *coords, int x, int y)
 {
 	t_vector cam_dir;
 	t_vector screen_point;
@@ -37,17 +37,20 @@ double	clamp(double val)
 int	detect_reflection(t_rt *rt_info, int x, int y)
 {
 	// printf("detect colision\n");
-	t_vector cam_dir = make_camdir(&rt_info->coords, x, y);
+	t_vector cam_dir = make_cam_dir(&rt_info->coords, x, y);
 	// detect_reflection to all objs
-	// Lv1:cam_dir and sphere
 	t_front_point intersection = colide_ray_and_objs(&cam_dir, &rt_info->coords, &rt_info->objs);
-	// TODO shading
-	// make_color();
+
+	// TODO　同じ位置なら弾く
 	if (intersection.length)
 	{
 		// TODO multiple lightnings
-		:while (lights)
-		// print_vecs(&rt_info->lights->coord);
+		// while (lights[i])
+
+		// TODO shadowing
+		// make shadow_ray = sub_vecs(lights[0].coord, intersection.coord);
+		// coord_plus = intersection.coord + 
+
 		int	light = 0;
 		// amb
 		light += 50;
@@ -80,12 +83,10 @@ int	detect_reflection(t_rt *rt_info, int x, int y)
 			double lum_spe = pow(vr_dot, shininess);
 			// printf("%f\n", lum_spe);
 			light += 100 * lum_spe;
+			// TODO BONUS: re rayTrace: call rayTrace recursivelt
 		}
-
 		return (light);
 	}
-	// TODO shadowing
-	// Lv3:with color
-	// Lv4:multiple sphere
+	// TODO coloring
 	return 0;
-}
+}k
