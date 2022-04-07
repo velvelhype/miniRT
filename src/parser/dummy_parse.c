@@ -18,15 +18,27 @@ void	dummy_init_coord(t_coord *coord)
 void	dummy_init_objs(t_objs *objs)
 {
 	objs->spheres = NULL;
-	objs->spheres = (t_sphere *)malloc(sizeof(t_sphere) * 3);
-	init_vector(&(objs->spheres)[0].coord, 1, 1, 10);
+	objs->spheres = (t_sphere *)malloc(sizeof(t_sphere) * 10);
+	init_vector(&(objs->spheres)[0].coord, 0.1, 0.1, 10);
 	(objs->spheres)[0].diameter = 9.8;
-	init_vector(&(objs->spheres)[1].coord, -1, -1, 10);
-	(objs->spheres)[1].diameter = 9.8;
+	init_vector(&(objs->spheres)[1].coord, -1, 0.7, 10);
+	(objs->spheres)[1].diameter = 9.76;
 	(objs->spheres)[1].is_end = 0;
-	// (objs->spheres)[0].color;
-	(objs->spheres)[2].is_end = 1;
+	init_vector(&(objs->spheres)[2].coord, 1, 0.7, 10);
+	(objs->spheres)[2].diameter = 9.76;
+	(objs->spheres)[2].is_end = 0;
+	init_vector(&(objs->spheres)[3].coord, -1, 0.7, 10);
+	(objs->spheres)[3].diameter = 9.2;
+	(objs->spheres)[3].is_end = 1;
+	(objs->spheres)[4].is_end = 1;
+
 	objs->planes = NULL;
+	objs->planes = (t_plane *)malloc(sizeof(t_plane) * 10);
+	init_vector(&(objs->planes)[0].coord, 0.1, 1, 0.26);
+	init_vector(&(objs->planes)[0].orient, 0, 0.1, 0.8);
+	(objs->planes)[0].is_end = false;
+	(objs->planes)[1].is_end = true;
+
 	objs->cylinders = NULL;
 }
 
@@ -46,5 +58,5 @@ void	dummy_parse(t_rt *rt_info)
 	dummy_init_objs(&rt_info->objs);
 	// dummy_init_lights(rt_info->lights);
 	rt_info->lights = (t_lights *)malloc(sizeof(t_lights) * 2);
-	init_vector(&rt_info->lights[0].coord, -0.0, -0.5, -0);
+	init_vector(&rt_info->lights[0].coord, -0.0, -0.0, -0);
 }

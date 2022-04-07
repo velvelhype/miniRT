@@ -45,8 +45,8 @@ int	detect_reflection(t_rt *rt_info, int x, int y)
 	// make_color();
 	if (intersection.length)
 	{
-		// TODO lighting
-		// while(lights[i])
+		// TODO multiple lightnings
+		:while (lights)
 		// print_vecs(&rt_info->lights->coord);
 		int	light = 0;
 		// amb
@@ -58,10 +58,9 @@ int	detect_reflection(t_rt *rt_info, int x, int y)
 		normalize(&light_dir);
 		double dot = dot_vecs(&intersection.reflec_dir, &light_dir);
 		dot = clamp(dot);
-		// printf("dot:%f\n", dot);
 		if (dot > 0)
 			light += dot * 100;
-		// printf("%f\n", dot_vecs(&intersection.reflec_dir, &light_dir));
+
 		//TODO specular
 		if (dot > 0)
 		{

@@ -24,9 +24,6 @@ double quadratic_equation(t_vector eye_dir, t_vector obj_to_eye, t_sphere *spr)
 			t = t1;
 		if (t2 > 0 && t2 < t)
 			t = t2;
-		// t = max(t1, t2);
-	
-		// printf("t:%f\n", t);
 	}
 	return (t);
 }
@@ -34,10 +31,9 @@ double quadratic_equation(t_vector eye_dir, t_vector obj_to_eye, t_sphere *spr)
 t_front_point	colide_cam_ray_and_sphere(t_vector cam_dir, t_coord *coords, t_sphere *sphere)
 {
 	t_vector obj_to_eye = sub_vecs(&(coords->cam_pos), &(sphere->coord));
-	print_vecs(&sphere->coord);
 	t_front_point front_point;
+
 	front_point.length = 0;
-	// printf (" %f\n", quadratic_equation(cam_dir, obj_to_eye, objs->spheres));
 	double t = quadratic_equation(cam_dir, obj_to_eye, sphere);
 	if (t > 0)
 	{
@@ -52,22 +48,56 @@ t_front_point	colide_cam_ray_and_sphere(t_vector cam_dir, t_coord *coords, t_sph
 	return (front_point);
 }
 
+t_front_point	colide_cam_ray_and_plane(t_vector cam_dir, t_coord *coords, t_plane *plane)
+{
+	t_front_point front_point;
+	front_point.length = 0;
+
+	if (dot_vecs(&cam_dir, &plane->orient))
+	{
+		t_vector subbed = sub_vecs(&plane->coord, &coords->cam_pos);
+		double t = dot_vecs(&subbed, &plane->orient);
+		// printf("%f\n", t);
+		t /= dot_vecs(&cam_dir, &plane->orient);
+		t *= -1;
+
+		t_vector multed = mult_vecs(&cam_dir, t);
+		front_point.coord = add_vecs(&coords->cam_pos, &multed);
+		front_point.reflec_dir = plane->orient;
+		front_point.length = len_vector(&coords->cam_pos, &front_point.coord);
+		front_point.cam_dir = cam_dir;
+	}
+	return (front_point);
+}
+
 t_front_point	colide_ray_and_objs(t_vector *cam_dir, t_coord *coords, t_objs	*objs)
 {
 	//colide with all objs
 	t_front_point nearest_front;
 	t_front_point new_front;
-	int i = 0;
-
 	nearest_front.length = 0;
-	while (objs->spheres[i].is_end == 0)
+
+	int i = 0;
+	while (objs->spheres[i].is_end == false)
 	{
-		// printf("i: %d\n", i);
-		// TODOchange sphere_pos
 		new_front = colide_cam_ray_and_sphere(*cam_dir, coords, &objs->spheres[i]);
 		if (new_front.length)
 			if (nearest_front.length == 0 || new_front.length < nearest_front.length)
 				nearest_front = new_front;
+		i++;
+	}
+
+	i = 0;
+	while (objs->planes[i].is_end == false)
+	{
+		new_front = colide_cam_ray_and_plane(*cam_dir, coords, &objs->planes[i]);
+		if (new_front.length)
+		{
+			if (nearest_front.length == 0 || new_front.length < nearest_front.length)
+				{
+					nearest_front = new_front;
+				}
+		}
 		i++;
 	}
 	return (nearest_front);
