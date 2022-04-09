@@ -1,6 +1,6 @@
 #include "miniRT.h"
 #include "render.h"
-#include "parse.h"
+#include "parser.h"
 
 int main(int argc, char **argv)
 {
