@@ -4,3 +4,5 @@ mlx_image.swift
 mlx_init.swiftsourceinfo
 mlx_image.swiftsourceinfo
 mlx_window.swiftsourceinfo
+libmlx_Linux.a
+*.o
