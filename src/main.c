@@ -1,12 +1,12 @@
 #include "miniRT.h"
-#include "render.h"
 #include "parser.h"
+#include "render.h"
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-	printf("start\n");
 	t_rt	rt_info;
 
+	printf("start\n");
 	//	if (argc != 3)
 	//		error_exit();
 	//	parse_rt_file(argv, &rt_info);

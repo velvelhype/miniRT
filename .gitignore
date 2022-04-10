@@ -6,6 +6,7 @@ mlx_image.swiftsourceinfo
 mlx_window.swiftsourceinfo
 libmlx_Linux.a
 *.o
+*.a
 
 /.vscode
 test/googletest-release-1.11.0

@@ -6,7 +6,7 @@
 /*   By: akito <akito@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 20:58:53 by akito             #+#    #+#             */
-/*   Updated: 2022/04/09 23:39:07 by akito            ###   ########.fr       */
+/*   Updated: 2022/04/10 14:24:39by akito            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ char	*get_next_line(int fd)
 		if (read_size <= 0)
 		{
 			free(buf);
+			if (memo[fd] == NULL)
+				return (NULL);
 			return (gnl_from_memo(&memo[fd], memo[fd] + ft_strlen(memo[fd])));
 		}
 		buf[read_size] = '\0';

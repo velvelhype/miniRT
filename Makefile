@@ -4,6 +4,7 @@ CC = gcc
 
 
 HEADERS = src \
+			src/libft \
 			src/parser \
 			src/render \
 			src/minilibx-linux \
@@ -20,7 +21,7 @@ LIBPARSER_DIR = ./src/parser
 LIBPARSER = $(LIBPARSER_DIR)/libparser.a
 
 
-CFLAGS = -O3 $(INCLUDES) $(LXFLAGS)
+CFLAGS = -O3 $(INCLUDES) $(LXFLAGS) -g
 # CFLAGS = -O3 -Werror -Wall -Wextra -g -fsanitize=address -Iinclude
 
 SRCS = src/parser/dummy_parse.c \
@@ -40,10 +41,10 @@ all: $(NAME)
 $(NAME): $(OBJS) $(LIBFT) $(LIBPARSER)
 	make -C src/minilibx-linux
 	cp src/minilibx-linux/libmlx_Linux.a ./
-	$(CC) -o $(NAME)   $(LIBPARSER) $(LIBFT) $(OBJS) libmlx_Linux.a $(CFLAGS)
+	$(CC) -o $(NAME) $(OBJS) $(LIBPARSER) $(LIBFT)  libmlx_Linux.a $(CFLAGS)
 
 $(LIBFT): dummy
-	make -C $(LIBFT_DIR)
+	make -C $(LIBFT_DIR) bonus
 
 $(LIBPARSER): dummy
 	make -C src/parser
@@ -71,7 +72,6 @@ GTEST_DIR = ./test
 GTEST_RELEASE = googletest-release-1.11.0
 GTEST = $(GTEST_DIR)/$(GTEST_RELEASE)
 
-TEST_SRCS = $(wildcard $(GTEST_DIR)/src/*.cpp)
 
 $(GTEST):
 	curl -OL https://github.com/google/googletest/archive/refs/tags/release-1.11.0.tar.gz
@@ -82,9 +82,7 @@ $(GTEST):
 	make -C $(GTEST_RELEASE)/lib
 	mv googletest-release-1.11.0 $(GTEST_DIR)
 
-test: ./test/tester
+test: test-build
 
-./test/tester: $(GTEST) $(TEST_SRCS)
-	g++ -I$(GTEST)/googletest/include/ -L$(GTEST)/lib/lib/ -lgtest_main -lgtest -pthread $(INCLUDES) -o ./test/tester $(TEST_SRCS)
-	./test/tester
-	rm -rf ./test/tester
+test-build: $(GTEST)  $(LIBFT) $(LIBPARSER)
+	make -C ./test
