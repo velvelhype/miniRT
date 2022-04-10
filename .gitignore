@@ -8,6 +8,6 @@ libmlx_Linux.a
 *.o
 
 /.vscode
-googletest-release-1.11.0
+test/googletest-release-1.11.0
 tester
 *.a

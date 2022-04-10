@@ -64,3 +64,27 @@ fclean: clean
 	rm libmlx_Linux.a
 
 re: fclean all
+
+# this rule should not be submitted
+
+GTEST_DIR = ./test
+GTEST_RELEASE = googletest-release-1.11.0
+GTEST = $(GTEST_DIR)/$(GTEST_RELEASE)
+
+TEST_SRCS = $(wildcard $(GTEST_DIR)/src/*.cpp)
+
+$(GTEST):
+	curl -OL https://github.com/google/googletest/archive/refs/tags/release-1.11.0.tar.gz
+	tar -xvzf release-1.11.0.tar.gz $(GTEST_RELEASE)
+	rm -rf release-1.11.0.tar.gz
+	mkdir -p $(GTEST_RELEASE)/lib
+	cmake -S $(GTEST_RELEASE) -B $(GTEST_RELEASE)/lib
+	make -C $(GTEST_RELEASE)/lib
+	mv googletest-release-1.11.0 $(GTEST_DIR)
+
+test: ./test/tester
+
+./test/tester: $(GTEST) $(TEST_SRCS)
+	g++ -I$(GTEST)/googletest/include/ -L$(GTEST)/lib/lib/ -lgtest_main -lgtest -pthread $(INCLUDES) -o ./test/tester $(TEST_SRCS)
+	./test/tester
+	rm -rf ./test/tester
