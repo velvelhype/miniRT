@@ -24,7 +24,7 @@ typedef struct s_coord
 {
 	int			max_width;
 	int			max_height;
-	//TODO make camera structure
+	//TODO make camera structure?
 	int			cam_FOV;
 	t_vector	cam_pos;
 	t_vector	cam_orient;
