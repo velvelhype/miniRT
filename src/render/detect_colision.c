@@ -19,9 +19,6 @@ t_vector make_cam_dir(t_coord *coords, int x, int y)
 	t_vector screen_point;
 	make_screen_point(&screen_point, coords, x, y);
 	cam_dir = sub_vecs(&screen_point, &coords->cam_pos);
-	// printf("sc point:");
-	// print_vecs(&screen_point);
-	// print_vecs(&cam_dir);
 	return (cam_dir);
 }
 
@@ -38,33 +35,41 @@ int	detect_reflection(t_rt *rt_info, int x, int y)
 {
 	// printf("detect colision\n");
 	t_vector cam_dir = make_cam_dir(&rt_info->coords, x, y);
+	// print_vecs(&cam_dir);
 	// detect_reflection to all objs
-	t_front_point intersection = colide_ray_and_objs(&cam_dir, &rt_info->coords, &rt_info->objs);
+	t_front_point intersection = colide_ray_and_objs(&cam_dir, &rt_info->coords.cam_pos, &rt_info->objs);
 
 	// TODO　同じ位置なら弾く
 	if (intersection.length)
 	{
-		// TODO multiple lightnings
-		// while (lights[i])
-
-		// TODO shadowing
-		// make shadow_ray = sub_vecs(lights[0].coord, intersection.coord);
-		// coord_plus = intersection.coord + 
-
 		int	light = 0;
 		// amb
-		light += 50;
-		//TODO diffuse : It looks well...
+		light += 70;
+		// TODO hard shadowing
+		// make
+		t_vector shadow_ray = sub_vecs(&rt_info->lights[0].coord, &intersection.coord);
+		double max_len = len_vector(&rt_info->lights[0].coord, &intersection.coord);
+		// norm(&shadow_ray);
+		shadow_ray = mult_vecs(&shadow_ray, epsilon);
+		t_vector coord_plus = add_vecs(&intersection.coord, &shadow_ray);
+		if (is_in_shadow(&shadow_ray, &coord_plus, &rt_info->objs, max_len))
+			return (light);
+
+		// print_vecs(&intersection.coord);
+
+		//　diffuse : It looks well...
 		t_vector light_dir;
 		light_dir = sub_vecs(&rt_info->lights[0].coord, &intersection.coord);
 		// light_dir = mult_vecs(&light_dir, -1);
 		normalize(&light_dir);
+		// print_vecs(&light_dir);
 		double dot = dot_vecs(&intersection.reflec_dir, &light_dir);
+		// printf("%f\n", dot);
 		dot = clamp(dot);
 		if (dot > 0)
-			light += dot * 100;
+			light += dot * 80;
 
-		//TODO specular
+		//　specular
 		if (dot > 0)
 		{
 			t_vector	ref_dir;
@@ -87,6 +92,5 @@ int	detect_reflection(t_rt *rt_info, int x, int y)
 		}
 		return (light);
 	}
-	// TODO coloring
 	return 0;
-}k
+}

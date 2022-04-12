@@ -11,8 +11,14 @@ typedef struct s_front_point
 	t_vector	cam_dir;
 } t_front_point;
 
-void	render(t_rt *rt_info);
-int	detect_reflection(t_rt *rt_info, int x, int y);
-t_front_point	colide_ray_and_objs(t_vector *cam_dir, t_coord *coords, t_objs *objs);
+void			render(t_rt *rt_info);
+int				detect_reflection(t_rt *rt_info, int x, int y);
+t_front_point	colide_ray_and_objs(t_vector *cam_dir, t_vector *cam_pos, t_objs *objs);
+double			sphere_discriminant(t_vector eye_dir, t_vector obj_to_eye, t_sphere *spr);
+t_front_point	colide_cam_ray_and_sphere(t_vector cam_dir, t_vector *cam_pos, t_sphere *sphere);
+t_front_point	colide_cam_ray_and_plane(t_vector cam_dir, t_vector *cam_pos, t_plane *plane);
+t_front_point	colide_cam_ray_and_cylinder(t_vector cam_dir, t_vector *cam_pos, t_cylinder *cylinder);
+bool			colide_shadow_ray_and_objs(t_vector *cam_dir, t_vector *cam_pos, t_objs *objs);
+bool			is_in_shadow(t_vector *cam_dir, t_vector *cam_pos, t_objs	*objs, double max_len);
 
 #endif
