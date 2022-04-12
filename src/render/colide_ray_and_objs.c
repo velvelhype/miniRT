@@ -24,7 +24,6 @@ t_front_point	colide_cam_ray_and_sphere(t_vector cam_dir, t_vector *cam_pos, t_s
 	double t = sphere_discriminant(cam_dir, obj_to_eye, sphere);
 	if (t > 0)
 	{
-		// p = cam_pos + t * cam_dir
 		t_vector multed = mult_vecs(&cam_dir, t);
 		front_point.coord = add_vecs(cam_pos, &multed);
 		front_point.reflec_dir = sub_vecs(&front_point.coord, &sphere->coord);
@@ -38,19 +37,21 @@ t_front_point	colide_cam_ray_and_sphere(t_vector cam_dir, t_vector *cam_pos, t_s
 t_front_point	colide_cam_ray_and_plane(t_vector cam_dir, t_vector *cam_pos, t_plane *plane)
 {
 	t_front_point front_point;
+
 	front_point.length = 0;
-
-	if (dot_vecs(&cam_dir, &plane->orient))
+	if (dot_vecs(&cam_dir, &plane->orient) > 0)
 	{
-		t_vector subbed = sub_vecs(&plane->coord, cam_pos);
-		double t = dot_vecs(&subbed, &plane->orient);
-		// printf("%f\n", t);
+		t_vector sub = sub_vecs(&plane->coord, cam_pos);
+		double t = dot_vecs(&sub, &plane->orient);
 		t /= dot_vecs(&cam_dir, &plane->orient);
-		t *= -1;
-
 		t_vector multed = mult_vecs(&cam_dir, t);
 		front_point.coord = add_vecs(cam_pos, &multed);
-		front_point.reflec_dir = plane->orient;
+		// TODO 裏表判定
+		if (dot_vecs(&cam_dir, &plane->orient) > 0)
+			front_point.reflec_dir = mult_vecs(&plane->orient, -1);
+		else
+			front_point.reflec_dir = plane->orient;
+		normalize(&front_point.reflec_dir);
 		front_point.length = len_vector(cam_pos, &front_point.coord);
 		front_point.cam_dir = cam_dir;
 	}
@@ -72,20 +73,21 @@ t_front_point	colide_cam_ray_and_cylinder(t_vector cam_dir, t_vector *cam_pos, t
     B = 2 * (cam_dir.x * mx + cam_dir.z * mz);
 	// 𝐶=(𝑚𝑥^2+𝑚𝑧^2)–𝑟^2;
     C = square(mx) + square(mz) - square(cylinder->diameter);
-    D = square(B) - 4 * A * C;
+    D = square(B) - (double)4 * A * C;
 	double t = quadratic_equation(A, B, C, D);
 	t_front_point front_point;
 	front_point.length = 0;
+	// height
 	if (t > 0)
 	{
-		// p = cam_pos + t * cam_dir
 		t_vector multed = mult_vecs(&cam_dir, t);
 		front_point.coord = add_vecs(cam_pos, &multed);
-		//reflec vec cyl
-		front_point.reflec_dir.x = 2 * (front_point.coord.x - cylinder->coord.x);
+	
+		if (cylinder->height < mod(front_point.coord.y - cylinder->coord.y))
+			return (front_point);
+		front_point.reflec_dir.x = (double)2 * (front_point.coord.x - cylinder->coord.x);
 		front_point.reflec_dir.y = 0;
-		front_point.reflec_dir.z = 2 * (front_point.coord.z - cylinder->coord.z);
-		//
+		front_point.reflec_dir.z = (double)2 * (front_point.coord.z - cylinder->coord.z);
 		normalize(&front_point.reflec_dir);
 		front_point.length = len_vector(cam_pos, &front_point.coord);
 		front_point.cam_dir = cam_dir;
@@ -137,11 +139,4 @@ t_front_point	colide_ray_and_objs(t_vector *cam_dir, t_vector *cam_pos, t_objs	*
 		i++;
 	}
 	return (nearest_front);
-
-	// while (objs->cylinders)
-	// {
-	// 	objs->cylinders++;
-	// }
 }
-
-//TODO colide_shadow_ray_and_objs
