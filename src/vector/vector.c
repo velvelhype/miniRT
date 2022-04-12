@@ -1,5 +1,6 @@
 #include "vector.h"
 #include <stdio.h>
+#include "simple_operation.h"
 #include <math.h>
 #include <string.h>
 #include <stdlib.h>
@@ -8,9 +9,9 @@ double	len_vector(t_vector	*v1, t_vector *v2)
 {
 	double	len;
 
-	len = pow(v1->x - v2->x, 2);
-	len += pow(v1->y - v2->y, 2);
-	len += pow(v1->z - v2->z, 2);
+	len = square(v1->x - v2->x);
+	len += square(v1->y - v2->y);
+	len += square(v1->z - v2->z);
 	return (sqrt(len));
 }
 
