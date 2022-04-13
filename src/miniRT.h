@@ -33,19 +33,12 @@ typedef struct s_coord
 	t_vector	sc_diff_y;
 } t_coord;
 
-typedef struct s_color
-{
-	int red;
-	int green;
-	int blue;
-} t_color;
-
 typedef struct s_sphere
 {
 	bool		is_end;
 	t_vector	coord;
 	double		diameter;
-	t_color		color;
+	int			color;
 } t_sphere;
 
 typedef struct s_plane
@@ -53,7 +46,7 @@ typedef struct s_plane
 	bool		is_end;
 	t_vector	coord;
 	t_vector	orient;
-	t_color		color;
+	int			color;
 } t_plane;
 
 typedef struct s_cylinder
@@ -63,7 +56,7 @@ typedef struct s_cylinder
 	t_vector	orient;
 	double		diameter;
 	double		height;
-	t_color 	color;
+	int			color;
 } t_cylinder;
 
 typedef struct s_objs
@@ -75,10 +68,15 @@ typedef struct s_objs
 
 typedef struct s_lights
 {
-	bool	is_end;
-	double	br_ratio;
+	double	amb_br;
+	int		amb_color;
+	double	dif_br;
+	int		dif_color;
+	double	spe_br;
+	int		spe_color;
 	t_vector	coord;
-	t_color	color;
+	// t_color	color;
+	// bool	is_end;
 } t_lights;
 
 typedef struct s_rt

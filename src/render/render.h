@@ -6,6 +6,7 @@
 typedef struct s_front_point
 {
 	double		length;
+	int			color;
 	t_vector	coord;
 	t_vector	reflec_dir;
 	t_vector	cam_dir;

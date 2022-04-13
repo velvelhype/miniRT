@@ -24,3 +24,12 @@ double	quadratic_equation(double A, double B, double C, double D)
 	}
 	return (t);
 }
+
+double	clamp(double val, double min, double max)
+{
+	if (val < min)
+		val = min;
+	if (val > max)
+		val = max;
+	return (val);
+}

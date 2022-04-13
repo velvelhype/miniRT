@@ -30,6 +30,7 @@ t_front_point	colide_cam_ray_and_sphere(t_vector cam_dir, t_vector *cam_pos, t_s
 		normalize(&front_point.reflec_dir);
 		front_point.length = len_vector(cam_pos, &front_point.coord);
 		front_point.cam_dir = cam_dir;
+		front_point.color = sphere->color;
 	}
 	return (front_point);
 }
@@ -54,6 +55,7 @@ t_front_point	colide_cam_ray_and_plane(t_vector cam_dir, t_vector *cam_pos, t_pl
 		normalize(&front_point.reflec_dir);
 		front_point.length = len_vector(cam_pos, &front_point.coord);
 		front_point.cam_dir = cam_dir;
+		front_point.color = plane->color;
 	}
 	return (front_point);
 }
@@ -91,6 +93,7 @@ t_front_point	colide_cam_ray_and_cylinder(t_vector cam_dir, t_vector *cam_pos, t
 		normalize(&front_point.reflec_dir);
 		front_point.length = len_vector(cam_pos, &front_point.coord);
 		front_point.cam_dir = cam_dir;
+		front_point.color = cylinder->color;
 	}
 	return (front_point);
 }

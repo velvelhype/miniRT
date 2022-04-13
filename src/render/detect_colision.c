@@ -22,52 +22,50 @@ t_vector make_cam_dir(t_coord *coords, int x, int y)
 	return (cam_dir);
 }
 
-double	clamp(double val)
+int	make_light_color(int color, double br, int pt_color)
 {
-	if (val > 1)
-		val = 1;
-	if (val < 0)
-		val = 0;
-	return (val);
+	int		red;
+	int		green;
+	int		blue;
+
+	red = (((color >> 16) & 0xFF) * br * (((pt_color >> 16) & 0xFF) / 0xFF));
+	green = (((color >> 8) & 0xFF) * br * (((pt_color >> 8) & 0xFF) / 0xFF));
+	blue = ((color & 0xFF) * br * ((pt_color & 0xFF) / 0xFF));
+	clamp(red, 0, 255);
+	clamp(blue, 0, 255);
+	clamp(green, 0, 255);
+	return ((red << 16) | (green << 8) | blue);
 }
 
 int	detect_reflection(t_rt *rt_info, int x, int y)
 {
-	// printf("detect colision\n");
 	t_vector cam_dir = make_cam_dir(&rt_info->coords, x, y);
-	// print_vecs(&cam_dir);
-	// detect_reflection to all objs
 	t_front_point intersection = colide_ray_and_objs(&cam_dir, &rt_info->coords.cam_pos, &rt_info->objs);
 
-	// TODO　同じ位置なら弾く
 	if (intersection.length)
 	{
 		int	light = 0;
-		// amb
-		light += 70;
-		// TODO hard shadowing
-		// make
+		// amb light
+		// light += rt_info->lights->amb * amb_br * color;
+		light += make_light_color(rt_info->lights->amb_color, rt_info->lights->amb_br, intersection.color);
+
+		// hard shadow
 		t_vector shadow_ray = sub_vecs(&rt_info->lights[0].coord, &intersection.coord);
 		double max_len = len_vector(&rt_info->lights[0].coord, &intersection.coord);
-		// norm(&shadow_ray);
 		shadow_ray = mult_vecs(&shadow_ray, epsilon);
 		t_vector coord_plus = add_vecs(&intersection.coord, &shadow_ray);
 		if (is_in_shadow(&shadow_ray, &coord_plus, &rt_info->objs, max_len))
 			return (light);
 
-		// print_vecs(&intersection.coord);
-
 		//　diffuse : It looks well...
 		t_vector light_dir;
 		light_dir = sub_vecs(&rt_info->lights[0].coord, &intersection.coord);
-		// light_dir = mult_vecs(&light_dir, -1);
 		normalize(&light_dir);
-		// print_vecs(&light_dir);
 		double dot = dot_vecs(&intersection.reflec_dir, &light_dir);
-		// printf("%f\n", dot);
-		dot = clamp(dot);
+		dot = clamp(dot, 0, 1);
+		//dot * light_br * color
 		if (dot > 0)
-			light += dot * 80;
+			light += make_light_color(rt_info->lights->dif_color, rt_info->lights->dif_br * dot, intersection.color);
 
 		//　specular
 		if (dot > 0)
@@ -83,11 +81,10 @@ int	detect_reflection(t_rt *rt_info, int x, int y)
 			inv_cam_dir = mult_vecs(&cam_dir, -1);
 			normalize(&inv_cam_dir);
 			vr_dot = dot_vecs(&inv_cam_dir, &ref_dir);
-			vr_dot = clamp(vr_dot);
+			vr_dot = clamp(vr_dot, 0, 1);
 			double shininess = 4;
 			double lum_spe = pow(vr_dot, shininess);
-			// printf("%f\n", lum_spe);
-			light += 100 * lum_spe;
+			light += make_light_color(rt_info->lights->spe_color, rt_info->lights->spe_br * lum_spe, intersection.color);
 			// TODO BONUS: re rayTrace: call rayTrace recursivelt
 		}
 		return (light);
