@@ -21,6 +21,9 @@ void		custom_exit(char *msg);
 double		parse_ratio(char *ratio);
 void		ft_split_free(char **tokens);
 t_color		parse_color(char *vec3_str);
+t_vector	parse_vector3(char *vec3_str);
 t_vector	parse_coordinate(char *vec3_str);
+void		parse_camera(t_rt *rt_info, char **tokens);
+void		parse_light(t_rt *rt_info, char **tokens);
 
 #endif

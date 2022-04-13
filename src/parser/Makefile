@@ -21,6 +21,8 @@ SRCS = get_next_line.c \
 		custom_exit.c\
 		parse_ratio.c\
 		parse_vector3.c\
+		parse_camera.c\
+		parse_light.c\
 
 OBJS = $(SRCS:.c=.o)
 

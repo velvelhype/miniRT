@@ -83,6 +83,9 @@ $(GTEST):
 	mv googletest-release-1.11.0 $(GTEST_DIR)
 
 test: test-build
+	./test/tester || :
+	@rm -rf ./test/tester
+
 
 test-build: $(GTEST)  $(LIBFT) $(LIBPARSER)
 	make -C ./test

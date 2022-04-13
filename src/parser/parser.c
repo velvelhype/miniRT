@@ -30,6 +30,10 @@ void	parse_line(t_rt *rt_info, char *line)
 	tokens = ft_split(line, ' ');
 	if (ft_streq(tokens[0], "A"))
 		parse_ambient_light(rt_info, tokens);
+	else if (ft_streq(tokens[0], "C"))
+		parse_camera(rt_info, tokens);
+	else if (ft_streq(tokens[0], "L"))
+		parse_light(rt_info, tokens);
 	ft_split_free(tokens);
 }
 

@@ -39,11 +39,11 @@ GTEST_DIR = .
 GTEST_RELEASE = googletest-release-1.11.0
 GTEST = $(GTEST_DIR)/$(GTEST_RELEASE)
 
-all: $(NAME) dummy
-	./$(NAME)
+all: $(NAME)
 
 $(NAME): $(OBJS)
-	g++ -std=c++11 $(INCLUDES)  $(OBJS) -L$(LIBFT_DIR) -L$(LIBPARSER_DIR) -lparser -lft  -I./src -I$(GTEST)/googletest/include/ -L$(GTEST)/lib/lib/ -lgtest_main -lgtest -pthread -o $(NAME)
+	@g++ -std=c++11 $(INCLUDES)  $(OBJS) -L$(LIBFT_DIR) -L$(LIBPARSER_DIR) -lparser -lft  -I./src -I$(GTEST)/googletest/include/ -L$(GTEST)/lib/lib/ -lgtest_main -lgtest -pthread -o $(NAME)
+
 
 dummy:
 

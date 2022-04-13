@@ -1,7 +1,7 @@
 #include "parser.h"
 #include <float.h>
 
-static t_vector	parse_vector3(char *vec3_str)
+t_vector	parse_vector3(char *vec3_str)
 {
 	t_vector	result;
 	char		**tokens;
