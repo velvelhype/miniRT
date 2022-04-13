@@ -18,7 +18,7 @@ t_vector make_camdir(t_coord *coords, int x, int y)
 	t_vector cam_dir;
 	t_vector screen_point;
 	make_screen_point(&screen_point, coords, x, y);
-	cam_dir = sub_vecs(&screen_point, &coords->cam_pos);
+	cam_dir = sub_vecs(&screen_point, &coords->camera.pos);
 	// printf("sc point:");
 	// print_vecs(&screen_point);
 	// print_vecs(&cam_dir);
@@ -53,7 +53,7 @@ int	detect_reflection(t_rt *rt_info, int x, int y)
 		light += 50;
 		//TODO diffuse : It looks well...
 		t_vector light_dir;
-		light_dir = sub_vecs(&rt_info->lights[0].coord, &intersection.coord);
+		light_dir = sub_vecs(&rt_info->light.coord, &intersection.coord);
 		// light_dir = mult_vecs(&light_dir, -1);
 		normalize(&light_dir);
 		double dot = dot_vecs(&intersection.reflec_dir, &light_dir);
