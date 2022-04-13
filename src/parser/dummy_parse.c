@@ -4,8 +4,8 @@
 
 void	dummy_init_coord(t_coord *coord)
 {
-	coord->max_height = 300;
-	coord->max_width = 300;
+	coord->max_height = 1000;
+	coord->max_width = 1000;
 	coord->cam_FOV = 90;
 	init_vector(&coord->cam_pos, 0, 0, -15);
 	init_vector(&coord->cam_orient, 0, 0, 1);
@@ -23,9 +23,10 @@ void	dummy_init_objs(t_objs *objs)
 	init_vector(&(objs->spheres)[0].coord, 0, -2, 10);
 	(objs->spheres)[0].diameter = 1.4;
 	(objs->spheres)[0].is_end = 0;
+	(objs->spheres)[0].color = 0xFF0000;
 	init_vector(&(objs->spheres)[1].coord, -0.9, -0, 5);
 	(objs->spheres)[1].diameter = 1;
-	(objs->spheres)[1].is_end = 0;
+	(objs->spheres)[1].is_end = 1;
 	init_vector(&(objs->spheres)[2].coord, 0.5, 0.4, -5);
 	(objs->spheres)[2].diameter = 0.4;
 	(objs->spheres)[2].is_end = 0;
@@ -47,6 +48,7 @@ void	dummy_init_objs(t_objs *objs)
 	objs->planes = (t_plane *)malloc(sizeof(t_plane) * 10);
 	init_vector(&(objs->planes)[0].coord, 0, 1, 10);
 	init_vector(&(objs->planes)[0].orient, 0, 1, 0);
+	(objs->planes)[0].color = 0xFF00FF;
 	(objs->planes)[0].is_end = 0;
 	(objs->planes)[1].is_end = true;
 
@@ -57,7 +59,7 @@ void	dummy_init_objs(t_objs *objs)
 	init_vector(&(objs->cylinders)[0].orient, 1, 0, 0);
 	(objs->cylinders)[0].diameter = 0.1;
 	(objs->cylinders)[0].height = 1;
-	(objs->cylinders)[0].is_end = 0;
+	(objs->cylinders)[0].is_end = 1;
 	init_vector(&(objs->cylinders)[1].coord, 1, 0, 5);
 	init_vector(&(objs->cylinders)[1].orient, 1, 0, 0);
 	(objs->cylinders)[1].diameter = 0.1;
@@ -109,4 +111,14 @@ void	dummy_parse(t_rt *rt_info)
 	// dummy_init_lights(rt_info->lights);
 	rt_info->lights = (t_lights *)malloc(sizeof(t_lights) * 2);
 	init_vector(&rt_info->lights[0].coord, 10, -20, -20);
+
+	rt_info->lights->amb_br  = 0.2;
+	rt_info->lights->amb_color = 0xFF;
+
+	rt_info->lights->dif_br = 0.3;
+	rt_info->lights->dif_color = 0xFFFFFF;
+
+	rt_info->lights->spe_br = 0.5;
+	rt_info->lights->spe_color = 0xFFFFFF;
+
 }
