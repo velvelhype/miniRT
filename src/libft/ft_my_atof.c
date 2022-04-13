@@ -6,12 +6,14 @@
 /*   By: akito <akito@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 11:37:34 by akito             #+#    #+#             */
-/*   Updated: 2021/11/23 11:38:13 by akito            ###   ########.fr       */
+/*   Updated: 2022/04/11 19:07:31 by akito            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <stdint.h>
+
+#include <stdio.h>
 
 static int		ft_isspace(int c);
 static void		read_sign(int *sign, size_t *i, char c);
@@ -46,7 +48,7 @@ double	ft_my_atof(const char *nptr)
 	read_sign(&sign, &i, nptr[i]);
 	while (ft_isdigit(nptr[i]))
 	{
-		result += 10 * result + (nptr[i] - '0');
+		result = 10 * result + (nptr[i] - '0');
 		i++;
 	}
 	if (nptr[i] == '.')
