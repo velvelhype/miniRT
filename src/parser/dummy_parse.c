@@ -7,22 +7,17 @@ void	dummy_init_coord(t_coord *coord)
 	coord->max_height = 600;
 	coord->max_width = 600;
 	coord->cam_FOV = 90;
-	init_vector(&coord->cam_pos, 0, 0, 0);
-	init_vector(&coord->cam_orient, 0, 0, 1);
-	//TODO calc the coord of the top left point in the screen.
-	//	cam_pos to top_left = width / tan(FOV);
-	//	coord->sc_bot_left = coord->cam_pos + cam_pos to top_left;
-	//	calc the x_diff;
-	//	calc the y_diff;
+	init_vector(&coord->cam_pos, 0, -100, 300);
+	init_vector(&coord->cam_orient, 0, 0.4, 0.9);
 }
 
 void	dummy_init_objs(t_objs *objs)
 {
 	objs->spheres = NULL;
 	objs->spheres = (t_sphere *)malloc(sizeof(t_sphere) * 10);
-	init_vector(&(objs->spheres)[0].coord, 0, 0, 600);
+	init_vector(&(objs->spheres)[0].coord, 0, 40, 600);
 	(objs->spheres)[0].diameter = 100.4;
-	(objs->spheres)[0].is_end = 0;
+	(objs->spheres)[0].is_end = 1;
 	(objs->spheres)[0].color = 0xFFFF00;
 	init_vector(&(objs->spheres)[1].coord, -0.9, -0, 5);
 	(objs->spheres)[1].diameter = 1;
@@ -55,11 +50,12 @@ void	dummy_init_objs(t_objs *objs)
 	objs->cylinders = NULL;
 	objs->cylinders = NULL;
 	objs->cylinders = (t_cylinder *)malloc(sizeof(t_cylinder) * 10);
-	init_vector(&(objs->cylinders)[0].coord, 0, 0, 5);
+	init_vector(&(objs->cylinders)[0].coord, 0, 40, 600);
 	init_vector(&(objs->cylinders)[0].orient, 1, 0, 0);
-	(objs->cylinders)[0].diameter = 0.1;
-	(objs->cylinders)[0].height = 1;
-	(objs->cylinders)[0].is_end = 1;
+	(objs->cylinders)[0].diameter = 109.1;
+	(objs->cylinders)[0].height = 100;
+	(objs->cylinders)[0].color = 0x00FF00;
+	(objs->cylinders)[0].is_end = 0;
 	init_vector(&(objs->cylinders)[1].coord, 1, 0, 5);
 	init_vector(&(objs->cylinders)[1].orient, 1, 0, 0);
 	(objs->cylinders)[1].diameter = 0.1;

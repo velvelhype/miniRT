@@ -47,7 +47,7 @@ t_front_point	colide_cam_ray_and_plane(t_vector cam_dir, t_vector *cam_pos, t_pl
 		t /= dot_vecs(&cam_dir, &plane->orient);
 		t_vector multed = mult_vecs(&cam_dir, t);
 		front_point.coord = add_vecs(cam_pos, &multed);
-		// TODO 裏表判定
+		// judge front or back
 		if (dot_vecs(&cam_dir, &plane->orient) > 0)
 			front_point.reflec_dir = mult_vecs(&plane->orient, -1);
 		else

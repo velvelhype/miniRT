@@ -1,7 +1,7 @@
 #include "miniRT.h"
 #include <math.h>
 #include "render.h"
-// TODO add max distance
+
 bool	is_in_shadow(t_vector *cam_dir, t_vector *cam_pos, t_objs	*objs, double max_len)
 {
 	t_front_point nearest_front;

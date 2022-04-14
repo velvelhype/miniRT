@@ -46,7 +46,6 @@ int	detect_reflection(t_rt *rt_info, int x, int y)
 	{
 		int	light = 0;
 		// amb light
-		// light += rt_info->lights->amb * amb_br * color;
 		light += make_light_color(rt_info->lights->amb_color, rt_info->lights->amb_br, intersection.color);
 
 		// hard shadow
@@ -85,7 +84,7 @@ int	detect_reflection(t_rt *rt_info, int x, int y)
 			double shininess = 4;
 			double lum_spe = pow(vr_dot, shininess);
 			light += make_light_color(rt_info->lights->spe_color, rt_info->lights->spe_br * lum_spe, intersection.color);
-			// TODO BONUS: re rayTrace: call rayTrace recursivelt
+			// BONUS: call detect_reflection recursively
 		}
 		return (light);
 	}
