@@ -12,19 +12,28 @@
 #include <string.h>
 #include <unistd.h>
 
+typedef enum e_uniq_obj
+{
+	AMBIENT = 0,
+	CAMERA = 1,
+	LIGHT = 2
+} t_uniq_obj;
+
+#define UNIQUE_OBJ_SIZE 3
+
 char *get_next_line(int fd);
 void dummy_parse(t_rt *rt_info);
 void parse(char *filename, t_rt *rt_info);
-void parse_line(t_rt *rt_info, char *line);
-void parse_ambient_light(t_rt *rt_info, char **tokens);
+void parse_line(t_rt *rt_info, char *line, bool *used);
+void parse_ambient_light(t_rt *rt_info, char **tokens, bool is_used);
 void custom_exit(char *msg);
 double parse_ratio(char *ratio);
 void ft_split_free(char **tokens);
 t_color parse_color(char *vec3_str);
 t_vector parse_vector3(char *vec3_str);
 t_vector parse_coordinate(char *vec3_str);
-void parse_camera(t_rt *rt_info, char **tokens);
-void parse_light(t_rt *rt_info, char **tokens);
+void parse_camera(t_rt *rt_info, char **tokens, bool is_used);
+void parse_light(t_rt *rt_info, char **tokens, bool is_used);
 void parse_sphere(t_rt *rt_info, char **tokens);
 void parse_plane(t_rt *rt_info, char **tokens);
 void parse_cylinder(t_rt *rt_info, char **tokens);

@@ -1,10 +1,12 @@
 #include "parser.h"
 
 // <Identifier> <x>,<y>,<z> <camera-x>,<camera-y>,<camera-z> <FOV>
-void	parse_camera(t_rt *rt_info, char **tokens)
+void	parse_camera(t_rt *rt_info, char **tokens, bool is_used)
 {
 	t_camera	*cam;
 
+	if (is_used)
+		custom_exit("Camera: invalid number of arguments");
 	cam = &rt_info->coords.camera;
 	if (tokens[1] == NULL || tokens[2] == NULL || tokens[3] == NULL || tokens[4] != NULL)
 		custom_exit("Ambient light: invalid number of arguments");

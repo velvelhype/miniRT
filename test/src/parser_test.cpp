@@ -117,3 +117,19 @@ TEST(ParseLine_Cylinder, success)
 	ft_lstclear(&rt_info.objs, &free);
 }
 
+TEST(Parse, none)
+{
+	char line[] = "cy 50.0,0.0,20.6 0.0,0.0,1.0 14.2 21.42 10,0,255";
+
+	t_rt rt_info;
+	rt_info.objs = NULL;
+	parse_line(&rt_info, line);
+	test_t_objs expect = {{CYLINDER,
+						   {50.0, 0.0, 20.6},
+						   {0, 0, 1.0},
+						   14.2,
+						  	21.42,
+						   {10, 0, 255}}};
+	check_objs(rt_info.objs, expect);
+	ft_lstclear(&rt_info.objs, &free);
+}
