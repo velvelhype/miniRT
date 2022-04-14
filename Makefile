@@ -21,18 +21,18 @@ LIBPARSER_DIR = ./src/parser
 LIBPARSER = $(LIBPARSER_DIR)/libparser.a
 
 
-CFLAGS = -O3 $(INCLUDES) $(LXFLAGS) -g
+CFLAGS = -O3 $(INCLUDES) $(LXFLAGS) -g -Wall -Wextra -Werror
 # CFLAGS = -O3 -Werror -Wall -Wextra -g -fsanitize=address -Iinclude
 
-SRCS = src/parser/dummy_parse.c \
-	src/render/render.c \
-	src/render/detect_colision.c \
-	src/render/colide_ray_and_objs.c \
-	src/vector/vector.c \
+SRCS = src/vector/vector.c \
 	src/vector/vector_operations.c \
 	src/vector/vector_debug.c \
-	src/ternary_operation/ternary_operation.c\
-	src/main.c \
+	# src/parser/dummy_parse.c \
+	# src/render/render.c \
+	# src/render/detect_colision.c \
+	# src/render/colide_ray_and_objs.c \
+	# 	src/ternary_operation/ternary_operation.c\
+	# 	src/main.c \
 
 OBJS = $(SRCS:.c=.o)
 

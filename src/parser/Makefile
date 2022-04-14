@@ -11,11 +11,10 @@ INCLUDES = $(addprefix -I, $(HEADERS))
 LXFLAGS		=	-lXext -lX11 -lm
 
 
-CFLAGS = -O3 $(INCLUDES) $(LXFLAGS) -g
+CFLAGS = -O3 $(INCLUDES) $(LXFLAGS) -g -Wall -Wextra -Werror
 # CFLAGS = -O3 -Werror -Wall -Wextra -g -fsanitize=address -Iinclude
 
 SRCS = get_next_line.c \
-		dummy_parse.c \
 		parser.c \
 		parse_ambient_light.c\
 		custom_exit.c\
@@ -23,6 +22,11 @@ SRCS = get_next_line.c \
 		parse_vector3.c\
 		parse_camera.c\
 		parse_light.c\
+		parse_objs.c\
+		sphere.c\
+		plane.c\
+		cylinder.c\
+		# dummy_parse.c \
 
 OBJS = $(SRCS:.c=.o)
 

@@ -6,6 +6,7 @@
 # define FALSE 0
 
 # include "vector.h"
+# include "libft.h"
 # include <stdbool.h>
 # include <stdio.h>
 
@@ -52,9 +53,21 @@ typedef struct s_color
 	int			blue;
 }				t_color;
 
+typedef enum e_obj_type
+{
+	SPHERE = 0,
+	PLANE = 1,
+	CYLINDER = 2,
+}				t_obj_type;
+
+typedef struct s_obj
+{
+	t_obj_type	type;
+}				t_obj;
+
 typedef struct s_sphere
 {
-	bool		is_end;
+	t_obj_type	type;
 	t_vector	coord;
 	double		diameter;
 	t_color		color;
@@ -62,7 +75,7 @@ typedef struct s_sphere
 
 typedef struct s_plane
 {
-	bool		is_end;
+	t_obj_type	type;
 	t_vector	coord;
 	t_vector	orient;
 	t_color		color;
@@ -70,20 +83,13 @@ typedef struct s_plane
 
 typedef struct s_cylinder
 {
-	bool		is_end;
+	t_obj_type	type;
 	t_vector	coord;
 	t_vector	orient;
 	double		diameter;
 	double		height;
 	t_color		color;
 }				t_cylinder;
-
-typedef struct s_objs
-{
-	t_sphere	*spheres;
-	t_plane		*planes;
-	t_cylinder	*cylinders;
-}				t_objs;
 
 typedef struct s_light
 {
@@ -96,7 +102,7 @@ typedef struct s_rt
 {
 	t_coord		coords;
 	t_mlx		mlx_config;
-	t_objs		objs;
+	t_list		*objs;
 	t_light		light;
 	t_light		ambient;
 }				t_rt;

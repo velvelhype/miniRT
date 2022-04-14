@@ -43,3 +43,74 @@ void check_light(t_rt *rt_info, test_t_light light_tuple)
 	check_vector(light.coord, std::get<0>(light_tuple));
 	check_ratio(light.br_ratio, std::get<1>(light_tuple));
 }
+
+// coord, diameter, color
+static void check_sphere(void *sphere_elm, test_t_sphere sphere_tuple)
+{
+	t_sphere *sphere = (t_sphere *)sphere_elm;
+
+	check_vector(sphere->coord, std::get<0>(sphere_tuple));
+	EXPECT_DOUBLE_EQ(sphere->diameter, std::get<1>(sphere_tuple));
+	check_color(sphere->color, std::get<2>(sphere_tuple));
+}
+
+// coord, orient, color
+static void check_plane(t_plane *plane, test_t_plane plane_tuple)
+{
+	check_vector(plane->coord, std::get<0>(plane_tuple));
+	check_vector(plane->orient, std::get<1>(plane_tuple));
+	check_color(plane->color, std::get<2>(plane_tuple));
+}
+
+// coord, orient, diameter, height, color
+static void check_cylinder(t_cylinder *cylinder, test_t_cylinder cylinder_tuple)
+{
+	check_vector(cylinder->coord, std::get<0>(cylinder_tuple));
+	check_vector(cylinder->orient, std::get<1>(cylinder_tuple));
+	EXPECT_DOUBLE_EQ(cylinder->diameter, std::get<2>(cylinder_tuple));
+	EXPECT_DOUBLE_EQ(cylinder->height, std::get<3>(cylinder_tuple));
+	check_color(cylinder->color, std::get<4>(cylinder_tuple));
+}
+
+// type, coord, orient, diameter, height, color
+void check_obj(void *obj_elm, test_t_obj obj)
+{
+	t_obj_type type = std::get<0>(obj);
+
+	if (type == SPHERE)
+	{
+		// coord, diameter, color
+		test_t_sphere sphere_tuple = std::make_tuple(std::get<1>(obj), std::get<3>(obj), std::get<5>(obj));
+		t_sphere *sphere = (t_sphere *)obj_elm;
+		ASSERT_NE(sphere, nullptr);
+		EXPECT_EQ(sphere->type, type);
+		check_sphere(sphere, sphere_tuple);
+	} else if (type == PLANE)
+	{
+		test_t_plane plane_tuple = std::make_tuple(std::get<1>(obj), std::get<2>(obj), std::get<5>(obj));
+		t_plane *plane = (t_plane *)obj_elm;
+		ASSERT_NE(plane, nullptr);
+		EXPECT_EQ(plane->type, type);
+		check_plane(plane, plane_tuple);
+	} else if (type == CYLINDER)
+	{
+		test_t_cylinder cylinder_tuple = std::make_tuple(std::get<1>(obj), std::get<2>(obj), std::get<3>(obj), std::get<4>(obj), std::get<5>(obj));
+		t_cylinder *cylinder = (t_cylinder *)obj_elm;
+		ASSERT_NE(cylinder, nullptr);
+		EXPECT_EQ(cylinder->type, type);
+		check_cylinder(cylinder, cylinder_tuple);
+	}
+}
+
+void check_objs(t_list *objs, test_t_objs objs_vec)
+{
+	void *obj;
+
+	ASSERT_EQ(ft_lstsize(objs), objs_vec.size());
+	for (auto x: objs_vec)
+	{
+		obj = objs->content;
+		check_obj(obj, x);
+		objs = objs->next;
+	}
+}

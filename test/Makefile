@@ -20,7 +20,7 @@ LIBFT = $(LIBFT_DIR)/libft.a
 LIBPARSER_DIR = ../src/parser
 LIBPARSER = $(LIBPARSER_DIR)/libparser.a
 
-CFLAGS = -O3 $(INCLUDES) $(LXFLAGS) -g
+CFLAGS = -O3 $(INCLUDES) $(LXFLAGS) -g -Wall -Wextra -Werror
 
 RED			=	'\033[31m'
 GREEN		=	'\033[32m'

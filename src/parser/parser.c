@@ -34,6 +34,12 @@ void	parse_line(t_rt *rt_info, char *line)
 		parse_camera(rt_info, tokens);
 	else if (ft_streq(tokens[0], "L"))
 		parse_light(rt_info, tokens);
+	else if (ft_streq(tokens[0], "sp"))
+		parse_objs(rt_info, tokens, SPHERE);
+	else if (ft_streq(tokens[0], "pl"))
+		parse_objs(rt_info, tokens, PLANE);
+	else if (ft_streq(tokens[0], "cy"))
+		parse_objs(rt_info, tokens, CYLINDER);
 	ft_split_free(tokens);
 }
 
