@@ -19,9 +19,10 @@ const int NO_MEAN = 123;
 TEST(ParseLine_Ambient, success)
 {
 	char line[] = "A 0.2 255,255,255";
+	bool used[UNIQUE_OBJ_SIZE] = {false};
 
 	t_rt rt_info;
-	parse_line(&rt_info, line);
+	parse_line(&rt_info, line, used);
 	test_t_ambient expect = std::make_tuple(0.2, test_t_color({255, 255, 255}));
 	check_ambient_light(&rt_info, expect);
 }
@@ -30,8 +31,10 @@ TEST(ParseLine_Camera, success)
 {
 	char line[] = "C -50.0,0,20 0,0,1 70";
 
+	bool used[UNIQUE_OBJ_SIZE] = {false};
+
 	t_rt rt_info;
-	parse_line(&rt_info, line);
+	parse_line(&rt_info, line, used);
 	test_t_camera expect =
 		std::make_tuple(test_t_vec({-50.0, 0, 20}), test_t_vec({0, 0, 1}), 70);
 	check_camera(&rt_info, expect);
@@ -40,9 +43,11 @@ TEST(ParseLine_Camera, success)
 TEST(ParseLine_Camera, success2)
 {
 	char line[] = "C -53.1,0.0,123 0,0,-1.0 70";
+	bool used[UNIQUE_OBJ_SIZE] = {false};
 
 	t_rt rt_info;
-	parse_line(&rt_info, line);
+	parse_line(&rt_info, line, used);
+
 	test_t_camera expect = std::make_tuple(
 		test_t_vec({-53.1, 0.0, 123}), test_t_vec({0, 0, -1.0}), 70);
 	check_camera(&rt_info, expect);
@@ -51,10 +56,11 @@ TEST(ParseLine_Camera, success2)
 TEST(ParseLine_Light, success)
 {
 	char line[] = "L -40.0,50.0,0.0 0.6 ";
+	bool used[UNIQUE_OBJ_SIZE] = {false};
 
 	t_rt rt_info;
-	parse_line(&rt_info, line);
-	test_t_light expect = std::make_tuple(test_t_vec({-40.0, 50.0, 0.0}), 0.6);
+	parse_line(&rt_info, line, used);
+	test_t_light expect = {test_t_vec({-40.0, 50.0, 0.0}), 0.6};
 	check_light(&rt_info, expect);
 }
 
@@ -63,10 +69,12 @@ TEST(ParseLine_Light, success)
 TEST(ParseLine_Sphere, success)
 {
 	char line[] = "sp 0.0,0.0,20.6 12.6 10,0,255";
+	bool used[UNIQUE_OBJ_SIZE] = {false};
 
 	t_rt rt_info;
 	rt_info.objs = NULL;
-	parse_line(&rt_info, line);
+	parse_line(&rt_info, line, used);
+
 	test_t_objs expect = {{SPHERE,
 						   {0.0, 0.0, 20.6},
 						   {},
@@ -85,9 +93,11 @@ TEST(ParseLine_Plane, success)
 {
 	char line[] = "pl 0.0,0.0,-10.0 0.0,1.0,0.0 0,0,225";
 
+	bool used[UNIQUE_OBJ_SIZE] = {false};
+
 	t_rt rt_info;
 	rt_info.objs = NULL;
-	parse_line(&rt_info, line);
+	parse_line(&rt_info, line, used);
 	test_t_objs expect = {{PLANE,
 						   {0.0, 0.0, -10.0},
 						   {0, 1, 0},
@@ -104,9 +114,11 @@ TEST(ParseLine_Cylinder, success)
 {
 	char line[] = "cy 50.0,0.0,20.6 0.0,0.0,1.0 14.2 21.42 10,0,255";
 
+	bool used[UNIQUE_OBJ_SIZE] = {false};
+
 	t_rt rt_info;
 	rt_info.objs = NULL;
-	parse_line(&rt_info, line);
+	parse_line(&rt_info, line, used);
 	test_t_objs expect = {{CYLINDER,
 						   {50.0, 0.0, 20.6},
 						   {0, 0, 1.0},
@@ -117,19 +129,72 @@ TEST(ParseLine_Cylinder, success)
 	ft_lstclear(&rt_info.objs, &free);
 }
 
+/*
+C -50.0,0,20 0,0,1 70
+A 0.2 255,255,255
+L -40.0,50.0,0.0 0.6
+*/
 TEST(Parse, none)
 {
-	char line[] = "cy 50.0,0.0,20.6 0.0,0.0,1.0 14.2 21.42 10,0,255";
+	char filename[] = "test/src/valid/none.rt";
 
 	t_rt rt_info;
 	rt_info.objs = NULL;
-	parse_line(&rt_info, line);
-	test_t_objs expect = {{CYLINDER,
+	parse(filename, &rt_info);
+	test_t_objs expect_objs = {};
+	test_t_ambient expect_ambient = {0.2, {255, 255, 255}};
+	test_t_camera expect_camera = {{-50.0, 0, 20}, {0, 0, 1}, 70};
+	test_t_light expect_light = {{-40.0, 50.0, 0.0}, 0.6};
+	check_rt(&rt_info, expect_objs, expect_ambient, expect_camera, expect_light);
+	ft_lstclear(&rt_info.objs, &free);
+}
+
+TEST(Parse, many_lines)
+{
+	char filename[] = "test/src/valid/many_lines.rt";
+
+	t_rt rt_info;
+	rt_info.objs = NULL;
+	parse(filename, &rt_info);
+	test_t_objs expect_objs = {};
+	test_t_ambient expect_ambient = {0.2, {255, 255, 255}};
+	test_t_camera expect_camera = {{-50.0, 0, 20}, {0, 0, 1}, 70};
+	test_t_light expect_light = {{-40.0, 50.0, 0.0}, 0.6};
+	check_rt(&rt_info, expect_objs, expect_ambient, expect_camera, expect_light);
+	ft_lstclear(&rt_info.objs, &free);
+}
+
+TEST(Parse, with_objects)
+{
+	char filename[] = "test/src/valid/with_objects.rt";
+
+	t_rt rt_info;
+	rt_info.objs = NULL;
+	parse(filename, &rt_info);
+	test_t_objs expect_objs = {
+		{SPHERE,
+						   {0.0, 0.0, 20.6},
+						   {},
+						   12.6,
+						   NO_MEAN,
+						   {10, 0, 255}},
+		{PLANE,
+						   {0.0, 0.0, -10.0},
+						   {0, 1, 0},
+						   NO_MEAN,
+						  	NO_MEAN,
+						   {0, 0, 225}},
+		{CYLINDER,
 						   {50.0, 0.0, 20.6},
 						   {0, 0, 1.0},
 						   14.2,
 						  	21.42,
-						   {10, 0, 255}}};
-	check_objs(rt_info.objs, expect);
+						   {10, 0, 255}},
+
+	};
+	test_t_ambient expect_ambient = {0.2, {255, 255, 255}};
+	test_t_camera expect_camera = {{-50.0, 0, 20}, {0, 0, 1}, 70};
+	test_t_light expect_light = {{-40.0, 50.0, 0.0}, 0.6};
+	check_rt(&rt_info, expect_objs, expect_ambient, expect_camera, expect_light);
 	ft_lstclear(&rt_info.objs, &free);
 }

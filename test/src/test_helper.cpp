@@ -114,3 +114,11 @@ void check_objs(t_list *objs, test_t_objs objs_vec)
 		objs = objs->next;
 	}
 }
+
+void check_rt(t_rt *rt_info, test_t_objs objs, test_t_ambient ambient_tuple, test_t_camera camera_tuple, test_t_light light_tuple)
+{
+	check_objs(rt_info->objs, objs);
+	check_ambient_light(rt_info, ambient_tuple);
+	check_camera(rt_info, camera_tuple);
+	check_light(rt_info, light_tuple);
+}

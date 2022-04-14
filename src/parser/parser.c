@@ -22,16 +22,14 @@ void	parse(char *filename, t_rt *rt_info)
 	init_used_flags(used);
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
-	{
-		perror("open");
-		exit(EXIT_FAILURE);
-	}
+		custom_exit(NULL);
 	line = get_next_line(fd);
 	while (line)
 	{
 		trimmed_line = ft_strtrim(line, " \t\n\r");
 		free(line);
-		parse_line(rt_info, trimmed_line, used);
+		if (trimmed_line[0] != '\0')
+			parse_line(rt_info, trimmed_line, used);
 		free(trimmed_line);
 		line = get_next_line(fd);
 	}

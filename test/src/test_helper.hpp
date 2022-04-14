@@ -35,5 +35,6 @@ void check_camera(t_rt *rt_info, test_t_camera camera_tuple);
 void check_light(t_rt *rt_info, test_t_light light_tuple);
 void check_obj(void *obj_elm, test_t_obj obj);
 void check_objs(t_list *objs_lst, test_t_objs objs);
+void check_rt(t_rt *rt_info, test_t_objs objs, test_t_ambient ambient_tuple, test_t_camera camera_tuple, test_t_light light_tuple);
 
 #endif
