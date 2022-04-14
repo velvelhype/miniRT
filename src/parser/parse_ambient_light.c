@@ -1,11 +1,10 @@
 #include "parser.h"
 
 // <Identifier> <ratio> <R>,<G>,<B>
-void	parse_ambient_light(t_rt *rt_info, char **tokens)
+void	parse_ambient_light(t_rt *rt_info, char **tokens, bool is_used)
 {
-	size_t	i;
-
-	i = 0;
+	if (is_used)
+		custom_exit("Ambient light: invalid number of arguments");
 	if (tokens[1] == NULL || tokens[2] == NULL || tokens[3] != NULL)
 		custom_exit("Ambient light: invalid number of arguments");
 	rt_info->ambient.br_ratio = parse_ratio(tokens[1]);

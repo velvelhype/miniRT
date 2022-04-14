@@ -5,9 +5,9 @@ void	dummy_init_coord(t_coord *coord)
 {
 	coord->max_height = 400;
 	coord->max_width = 400;
-	coord->cam_FOV = 90;
-	init_vector(&coord->cam_pos, 0, 0, 0);
-	init_vector(&coord->cam_orient, 0, 0, 1);
+	coord->camera.fov = 90;
+	init_vector(&coord->camera.pos, 0, 0, 0);
+	init_vector(&coord->camera.orient, 0, 0, 1);
 	//TODO calc the coord of the top left point in the screen.
 	// cam_pos to top_left = width / tan(FOV);
 	// coord->sc_bot_left = coord->cam_pos + cam_pos to top_left;
@@ -45,6 +45,5 @@ void	dummy_parse(t_rt *rt_info)
 	dummy_init_coord(&rt_info->coords);
 	dummy_init_objs(&rt_info->objs);
 	// dummy_init_lights(rt_info->lights);
-	rt_info->lights = (t_lights *)malloc(sizeof(t_lights) * 2);
-	init_vector(&rt_info->lights[0].coord, -0.0, -0.5, -0);
+	init_vector(&rt_info->light.coord, -0.0, -0.5, -0);
 }

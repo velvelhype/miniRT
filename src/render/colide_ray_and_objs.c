@@ -25,7 +25,7 @@ double quadratic_equation(t_vector eye_dir, t_vector obj_to_eye, t_sphere *spr)
 		if (t2 > 0 && t2 < t)
 			t = t2;
 		// t = max(t1, t2);
-	
+
 		// printf("t:%f\n", t);
 	}
 	return (t);
@@ -33,7 +33,7 @@ double quadratic_equation(t_vector eye_dir, t_vector obj_to_eye, t_sphere *spr)
 
 t_front_point	colide_cam_ray_and_sphere(t_vector cam_dir, t_coord *coords, t_sphere *sphere)
 {
-	t_vector obj_to_eye = sub_vecs(&(coords->cam_pos), &(sphere->coord));
+	t_vector obj_to_eye = sub_vecs(&(coords->camera.pos), &(sphere->coord));
 	print_vecs(&sphere->coord);
 	t_front_point front_point;
 	front_point.length = 0;
@@ -43,10 +43,10 @@ t_front_point	colide_cam_ray_and_sphere(t_vector cam_dir, t_coord *coords, t_sph
 	{
 		// p = cam_pos + t * cam_dir
 		t_vector multed = mult_vecs(&cam_dir, t);
-		front_point.coord = add_vecs(&coords->cam_pos, &multed);
+		front_point.coord = add_vecs(&coords->camera.pos, &multed);
 		front_point.reflec_dir = sub_vecs(&front_point.coord, &sphere->coord);
 		normalize(&front_point.reflec_dir);
-		front_point.length = len_vector(&coords->cam_pos, &front_point.coord);
+		front_point.length = len_vector(&coords->camera.pos, &front_point.coord);
 		front_point.cam_dir = cam_dir;
 	}
 	return (front_point);
