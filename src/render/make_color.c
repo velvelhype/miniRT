@@ -22,38 +22,12 @@ int	ambient_light(t_light *light, t_front_point *intersection)
 	return (make_light_color(light->amb_color, light->amb_br, intersection->color));
 }
 
+int	specular_reflection(t_vector *light_dir, double dot, t_vector *cam_dir, t_front_point *intersection, t_rt *rt_info)
+{
+
+}
+
 int	diffuse_and_specular_reflection(t_vector *cam_dir, t_light *light, t_front_point *intersection)
 {
-		t_vector light_dir;
-		int light_val = 0;
 
-		light_dir = sub_vecs(&light->coord, &intersection->coord);
-		normalize(&light_dir);
-		double dot = dot_vecs(&intersection->reflec_dir, &light_dir);
-		dot = clamp(dot, 0, 1);
-		//dot * light_br * color
-		if (dot > 0)
-			light_val += make_light_color(light->dif_color, light->dif_br * dot, intersection->color);
-
-		//　specular
-		if (dot > 0)
-		{
-			t_vector	ref_dir;
-			t_vector	inv_cam_dir;
-			double		vr_dot;
-
-			ref_dir = mult_vecs(&intersection->reflec_dir, dot * (double)2);
-			ref_dir = sub_vecs(&ref_dir, &light_dir);
-			normalize(&ref_dir);
-
-			inv_cam_dir = mult_vecs(&cam_dir, -1);
-			normalize(&inv_cam_dir);
-			vr_dot = dot_vecs(&inv_cam_dir, &ref_dir);
-			vr_dot = clamp(vr_dot, 0, 1);
-			double shininess = 4;
-			double lum_spe = pow(vr_dot, shininess);
-			light_val += make_light_color(light->spe_color, light->spe_br * lum_spe, intersection->color);
-			// BONUS: call detect_reflection recursively
-		}
-	return (light_val);
 }

@@ -47,7 +47,6 @@ int	detect_reflection(t_rt *rt_info, int x, int y)
 		normalize(&light_dir);
 		double dot = dot_vecs(&intersection.reflec_dir, &light_dir);
 		dot = clamp(dot, 0, 1);
-		//dot * light_br * color
 		if (dot > 0)
 			light += make_light_color(rt_info->light.dif_color, rt_info->light.dif_br * dot, intersection.color);
 
