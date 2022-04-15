@@ -11,8 +11,10 @@ typedef struct s_front_point
 	t_vector	cam_dir;
 }	t_front_point;
 
-void			render(t_rt *rt_info);
+void			render(t_rt *rt_info, t_mlx *mlx_config);
 int				detect_reflection(t_rt *rt_info, int x, int y);
+
+void			my_pixel_put(t_mlx *mlx_info, int x, int y, int color, t_coord *coords);
 
 int				make_light_color(int color, double br, int pt_color);
 int				ambient_light(t_light *light, t_front_point *intersection);

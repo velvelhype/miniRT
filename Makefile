@@ -10,6 +10,7 @@ CFLAGS = -O3 \
 SRCS = src/main.c \
 	src/parser/dummy_parse.c \
 	src/render/render.c \
+	src/render/my_pixel_put.c \
 	src/render/detect_colision.c \
 	src/render/make_color.c \
 	src/render/is_in_shadow.c \

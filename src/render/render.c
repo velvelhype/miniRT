@@ -6,10 +6,13 @@
 
 void	init_mlx(t_rt *rt_info, t_mlx *mlx)
 {
+	char	*a;
 	printf("config mlx\n");
     mlx->mlx_ptr = mlx_init();
     mlx->win_ptr = mlx_new_window(mlx->mlx_ptr, rt_info->coords.max_width, rt_info->coords.max_height, "Finally?");
     mlx->image = mlx_new_image(mlx->mlx_ptr, rt_info->coords.max_width, rt_info->coords.max_height);
+	a = mlx_get_data_addr(mlx->image, &(mlx->pix_bits), &(mlx->line_len), &(mlx->endi));
+	mlx->addr = a;
 }
 
 void	make_screen(t_coord	*coords)
@@ -56,10 +59,10 @@ void	make_screen(t_coord	*coords)
 	// init_vector(&coords->sc_diff_y, 0, (double)2 / coords->max_height, 0);
 }
 
-void	render(t_rt *rt_info)
+void	render(t_rt *rt_info, t_mlx *mlx_config)
 {
 	printf("render\n");
-	init_mlx(rt_info, &rt_info->mlx_config);
+	init_mlx(rt_info, mlx_config);
 	make_screen(&rt_info->coords);
 	int x;
 	int y;
@@ -71,12 +74,12 @@ void	render(t_rt *rt_info)
 		{
 			double	color;
 			color = detect_reflection(rt_info, x, y);
-			// TODO use image
-			mlx_pixel_put(rt_info->mlx_config.mlx_ptr, rt_info->mlx_config.win_ptr, x, y, color);
+			my_pixel_put(mlx_config, x, y, color, &rt_info->coords);
 			x++;
 		}
 		x = 0;
 		y++;
 	}
-    mlx_loop(rt_info->mlx_config.mlx_ptr);
+	mlx_put_image_to_window(mlx_config->mlx_ptr, mlx_config->win_ptr, mlx_config->image, 0, 0);
+    mlx_loop(mlx_config->mlx_ptr);
 }

@@ -60,7 +60,6 @@ int	detect_reflection(t_rt *rt_info, int x, int y)
 			ref_dir = mult_vecs(&intersection.reflec_dir, dot * 2);
 			ref_dir = sub_vecs(&ref_dir, &light_dir);
 			normalize(&ref_dir);
-
 			inv_cam_dir = mult_vecs(&cam_dir, -1);
 			normalize(&inv_cam_dir);
 			vr_dot = dot_vecs(&inv_cam_dir, &ref_dir);
