@@ -4,9 +4,10 @@
 
 void	make_screen_point(t_vector *screen_point, t_coord *coords, int x, int y)
 {
+	t_vector mult;
+
 	init_vector(screen_point, 0, 0, 0);
 	*screen_point = add_vecs(screen_point, &coords->sc_bot_left);
-	t_vector mult;
 	mult = mult_vecs(&coords->sc_diff_x, x);
 	*screen_point = add_vecs(screen_point, &mult);
 	mult = mult_vecs(&coords->sc_diff_y, y);
@@ -17,24 +18,10 @@ t_vector make_cam_dir(t_coord *coords, int x, int y)
 {
 	t_vector cam_dir;
 	t_vector screen_point;
+
 	make_screen_point(&screen_point, coords, x, y);
 	cam_dir = sub_vecs(&screen_point, &coords->cam_pos);
 	return (cam_dir);
-}
-
-int	make_light_color(int color, double br, int pt_color)
-{
-	int		red;
-	int		green;
-	int		blue;
-
-	red = (((color >> 16) & 0xFF) * br * (((pt_color >> 16) & 0xFF) / 0xFF));
-	green = (((color >> 8) & 0xFF) * br * (((pt_color >> 8) & 0xFF) / 0xFF));
-	blue = ((color & 0xFF) * br * ((pt_color & 0xFF) / 0xFF));
-	clamp(red, 0, 255);
-	clamp(blue, 0, 255);
-	clamp(green, 0, 255);
-	return ((red << 16) | (green << 8) | blue);
 }
 
 int	detect_reflection(t_rt *rt_info, int x, int y)
@@ -45,15 +32,13 @@ int	detect_reflection(t_rt *rt_info, int x, int y)
 	if (intersection.length)
 	{
 		int	light = 0;
-		// amb light
-		light += make_light_color(rt_info->lights->amb_color, rt_info->lights->amb_br, intersection.color);
-
+		light += ambient_light(rt_info->lights, &intersection);
 		// hard shadow
 		t_vector shadow_ray = sub_vecs(&rt_info->lights[0].coord, &intersection.coord);
 		double max_len = len_vector(&rt_info->lights[0].coord, &intersection.coord);
 		shadow_ray = mult_vecs(&shadow_ray, epsilon);
-		t_vector coord_plus = add_vecs(&intersection.coord, &shadow_ray);
-		if (is_in_shadow(&shadow_ray, &coord_plus, &rt_info->objs, max_len))
+		t_vector is_plus = add_vecs(&intersection.coord, &shadow_ray);
+		if (is_in_shadow(&shadow_ray, &is_plus, &rt_info->objs, max_len))
 			return (light);
 
 		//　diffuse : It looks well...

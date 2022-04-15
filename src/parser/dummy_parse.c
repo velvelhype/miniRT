@@ -52,8 +52,8 @@ void	dummy_init_objs(t_objs *objs)
 	objs->cylinders = (t_cylinder *)malloc(sizeof(t_cylinder) * 10);
 	init_vector(&(objs->cylinders)[0].coord, 0, 40, 600);
 	init_vector(&(objs->cylinders)[0].orient, 1, 0, 0);
-	(objs->cylinders)[0].diameter = 109.1;
-	(objs->cylinders)[0].height = 100;
+	(objs->cylinders)[0].diameter = 39.1;
+	(objs->cylinders)[0].height = 104;
 	(objs->cylinders)[0].color = 0x00FF00;
 	(objs->cylinders)[0].is_end = 0;
 	init_vector(&(objs->cylinders)[1].coord, 1, 0, 5);
@@ -90,9 +90,9 @@ void	dummy_init_objs(t_objs *objs)
 	(objs->cylinders)[7].is_end = true;
 }
 
-// void	dummy_init_lights(t_lights *lights)
+// void	dummy_init_lights(t_light *lights)
 // {
-// 	lights = (t_lights *)malloc(sizeof(t_lights) * 2);
+// 	lights = (t_light *)malloc(sizeof(t_light) * 2);
 // 	init_vector(&(lights[0]).coord, 0, 0, -100);
 // 	lights[0].br_ratio = 1;
 // 	lights[1].is_end = TRUE;
@@ -105,7 +105,7 @@ void	dummy_parse(t_rt *rt_info)
 	dummy_init_coord(&rt_info->coords);
 	dummy_init_objs(&rt_info->objs);
 	// dummy_init_lights(rt_info->lights);
-	rt_info->lights = (t_lights *)malloc(sizeof(t_lights) * 2);
+	rt_info->lights = (t_light *)malloc(sizeof(t_light) * 2);
 	init_vector(&rt_info->lights[0].coord, 10, -20, -20);
 
 	rt_info->lights->amb_br  = 0.5;

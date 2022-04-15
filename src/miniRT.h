@@ -63,7 +63,7 @@ typedef struct s_objs
 	t_cylinder	*cylinders;
 }	t_objs;
 
-typedef struct s_lights
+typedef struct s_light
 {
 	double		amb_br;
 	int			amb_color;
@@ -72,14 +72,14 @@ typedef struct s_lights
 	double		spe_br;
 	int			spe_color;
 	t_vector	coord;
-}	t_lights;
+}	t_light;
 
 typedef struct s_rt
 {
 	t_coord		coords;
 	t_mlx		mlx_config;
 	t_objs		objs;
-	t_lights	*lights;
+	t_light		*lights;
 }	t_rt;
 
 #endif

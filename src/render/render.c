@@ -25,7 +25,6 @@ void	make_screen(t_coord	*coords)
 	x_basis.y = 0;
 	x_basis.z = -cam_to_sc_center.x / sqrt(cam_to_sc_center.z * cam_to_sc_center.z + cam_to_sc_center.x * cam_to_sc_center.x);
 	t_vector y_basis;
-	//TODO multed is ugly
 	t_vector multed = mult_vecs(&cam_to_sc_center, -1);
 	cross_vecs(&y_basis, &x_basis, &multed);
 	normalize(&y_basis);
