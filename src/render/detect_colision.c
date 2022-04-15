@@ -32,24 +32,24 @@ int	detect_reflection(t_rt *rt_info, int x, int y)
 	if (intersection.length)
 	{
 		int	light = 0;
-		light += ambient_light(rt_info->lights, &intersection);
+		light += ambient_light(&rt_info->light, &intersection);
 		// hard shadow
-		t_vector shadow_ray = sub_vecs(&rt_info->lights[0].coord, &intersection.coord);
-		double max_len = len_vector(&rt_info->lights[0].coord, &intersection.coord);
+		t_vector shadow_ray = sub_vecs(&rt_info->light.coord, &intersection.coord);
+		double max_len = len_vector(&rt_info->light.coord, &intersection.coord);
 		shadow_ray = mult_vecs(&shadow_ray, epsilon);
 		t_vector is_plus = add_vecs(&intersection.coord, &shadow_ray);
 		if (is_in_shadow(&shadow_ray, &is_plus, &rt_info->objs, max_len))
 			return (light);
 
-		//　diffuse : It looks well...
+		// diffuse : It looks well...
 		t_vector light_dir;
-		light_dir = sub_vecs(&rt_info->lights[0].coord, &intersection.coord);
+		light_dir = sub_vecs(&rt_info->light.coord, &intersection.coord);
 		normalize(&light_dir);
 		double dot = dot_vecs(&intersection.reflec_dir, &light_dir);
 		dot = clamp(dot, 0, 1);
 		//dot * light_br * color
 		if (dot > 0)
-			light += make_light_color(rt_info->lights->dif_color, rt_info->lights->dif_br * dot, intersection.color);
+			light += make_light_color(rt_info->light.dif_color, rt_info->light.dif_br * dot, intersection.color);
 
 		//　specular
 		if (dot > 0)
@@ -68,7 +68,7 @@ int	detect_reflection(t_rt *rt_info, int x, int y)
 			vr_dot = clamp(vr_dot, 0, 1);
 			double shininess = 4;
 			double lum_spe = pow(vr_dot, shininess);
-			light += make_light_color(rt_info->lights->spe_color, rt_info->lights->spe_br * lum_spe, intersection.color);
+			light += make_light_color(rt_info->light.spe_color, rt_info->light.spe_br * lum_spe, intersection.color);
 			// BONUS: call detect_reflection recursively
 		}
 		return (light);

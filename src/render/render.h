@@ -14,8 +14,8 @@ typedef struct s_front_point
 void			render(t_rt *rt_info);
 int				detect_reflection(t_rt *rt_info, int x, int y);
 
-int				ambient_light(t_light *lights, t_front_point *intersection);
-int				diffuse_and_specular_reflection(t_vector *cam_dir, t_light *lights, t_front_point *intersection);
+int				ambient_light(t_light *light, t_front_point *intersection);
+int				diffuse_and_specular_reflection(t_vector *cam_dir, t_light *light, t_front_point *intersection);
 int				make_light_color(int color, double br, int pt_color);
 
 t_front_point	colide_ray_and_objs(t_vector *cam_dir, t_vector *cam_pos, t_objs *objs);

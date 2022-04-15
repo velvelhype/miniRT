@@ -79,7 +79,7 @@ typedef struct s_rt
 	t_coord		coords;
 	t_mlx		mlx_config;
 	t_objs		objs;
-	t_light		*lights;
+	t_light		light;
 }	t_rt;
 
 #endif

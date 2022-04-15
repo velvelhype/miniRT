@@ -90,31 +90,26 @@ void	dummy_init_objs(t_objs *objs)
 	(objs->cylinders)[7].is_end = true;
 }
 
-// void	dummy_init_lights(t_light *lights)
-// {
-// 	lights = (t_light *)malloc(sizeof(t_light) * 2);
-// 	init_vector(&(lights[0]).coord, 0, 0, -100);
-// 	lights[0].br_ratio = 1;
-// 	lights[1].is_end = TRUE;
-// 	// print_vecs(&lights[0].coord);
-// }
+void	dummy_init_light(t_light	*light)
+{
+	init_vector(&light->coord, 10, -20, -20);
+
+	light->amb_br  = 0.5;
+	light->amb_color = 0xFF;
+
+	light->dif_br = 0.3;
+	light->dif_color = 0xFFFFFF;
+
+	light->spe_br = 0.5;
+	light->spe_color = 0xFFFFFF;
+}
 
 void	dummy_parse(t_rt *rt_info)
 {
 	printf("dummy_parse\n");
 	dummy_init_coord(&rt_info->coords);
 	dummy_init_objs(&rt_info->objs);
-	// dummy_init_lights(rt_info->lights);
-	rt_info->lights = (t_light *)malloc(sizeof(t_light) * 2);
-	init_vector(&rt_info->lights[0].coord, 10, -20, -20);
+	dummy_init_light(&rt_info->light);
 
-	rt_info->lights->amb_br  = 0.5;
-	rt_info->lights->amb_color = 0xFF;
-
-	rt_info->lights->dif_br = 0.3;
-	rt_info->lights->dif_color = 0xFFFFFF;
-
-	rt_info->lights->spe_br = 0.5;
-	rt_info->lights->spe_color = 0xFFFFFF;
 
 }
