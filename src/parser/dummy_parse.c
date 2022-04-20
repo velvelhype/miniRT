@@ -17,7 +17,7 @@ void	dummy_init_objs(t_objs *objs)
 	objs->spheres = (t_sphere *)malloc(sizeof(t_sphere) * 10);
 	init_vector(&(objs->spheres)[0].coord, 0, 40, 600);
 	(objs->spheres)[0].diameter = 100.4;
-	(objs->spheres)[0].is_end = 0;
+	(objs->spheres)[0].is_end = 1;
 	(objs->spheres)[0].color = 0xFFFF00;
 	init_vector(&(objs->spheres)[1].coord, -0.9, -0, 5);
 	(objs->spheres)[1].diameter = 1;
@@ -44,23 +44,23 @@ void	dummy_init_objs(t_objs *objs)
 	init_vector(&(objs->planes)[0].coord, 0, -10, 600);
 	init_vector(&(objs->planes)[0].orient, 0, 1, 0);
 	(objs->planes)[0].color = 0xFF00FF;
-	(objs->planes)[0].is_end = 0;
+	(objs->planes)[0].is_end = 1;
 	(objs->planes)[1].is_end = true;
 
 	objs->cylinders = NULL;
 	objs->cylinders = NULL;
 	objs->cylinders = (t_cylinder *)malloc(sizeof(t_cylinder) * 10);
-	init_vector(&(objs->cylinders)[0].coord, 0, 40, 600);
+	init_vector(&(objs->cylinders)[0].coord, -400, 0, 2000);
 	init_vector(&(objs->cylinders)[0].orient, 1, 0, 0);
-	(objs->cylinders)[0].diameter = 20.1;
-	(objs->cylinders)[0].height = 400;
+	(objs->cylinders)[0].diameter = 100.1;
+	(objs->cylinders)[0].height = 1000;
 	(objs->cylinders)[0].color = 0x00FF00;
 	(objs->cylinders)[0].is_end = 0;
 	init_vector(&(objs->cylinders)[1].coord, 1, 0, 5);
 	init_vector(&(objs->cylinders)[1].orient, 1, 0, 0);
 	(objs->cylinders)[1].diameter = 0.1;
 	(objs->cylinders)[1].height = 1;
-	(objs->cylinders)[1].is_end = 0;
+	(objs->cylinders)[1].is_end = 1;
 	init_vector(&(objs->cylinders)[2].coord, -1, 0, 5);
 	init_vector(&(objs->cylinders)[2].orient, 1, 0, 0);
 	(objs->cylinders)[2].diameter = 0.1;
