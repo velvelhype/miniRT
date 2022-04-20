@@ -60,6 +60,7 @@ t_front_point	colide_cam_ray_and_plane(t_vector cam_dir, t_vector *cam_pos, t_pl
 	return (front_point);
 }
 
+//TODO: has buggs, when seen by outside, index 0 cylinder
 t_front_point	colide_cam_ray_and_cylinder(t_vector cam_dir, t_vector *cam_pos, t_cylinder *cyl)
 {
     double A, B, C, D;
@@ -68,38 +69,68 @@ t_front_point	colide_cam_ray_and_cylinder(t_vector cam_dir, t_vector *cam_pos, t
 	cross_vecs(&s, &cam_dir, &cyl->orient);
 	A = norm(&s);
 	A = square(A);
-	t_vector subbed = sub_vecs(&cam_pos, &cyl->coord);
+	t_vector subbed = sub_vecs(cam_pos, &cyl->coord);
 	cross_vecs(&s, &cam_dir, &cyl->orient);
 	cross_vecs(&x, &subbed, &cyl->orient);
 	B = 2 * dot_vecs(&s, &x);
-	subbed = sub_vecs(&cam_pos, &cyl->coord);
+	subbed = sub_vecs(cam_pos, &cyl->coord);
 	cross_vecs(&s, &subbed, &cyl->orient);
 	C = norm(&s);
 	C = square(C) - square(cyl->diameter);
     D = square(B) - (double)4 * A * C;
-	double t = quadratic_equation(A, B, C, D);
+
 	t_front_point front_point;
-	front_point.length = 0;
-	t_vector multed = mult_vecs(&cam_dir, t);
-	front_point.coord = add_vecs(&cam_pos, &multed);
-	t_vector cyl_to_p = sub_vecs(&front_point.coord, &cyl->coord);
-	double height = dot_vecs(&cyl_to_p, &cyl->orient);
-	// if (height < cyl->height)
-	// if (t > 0 && height < cyl->height)
-	if (t > 0 && height < cyl->height && height > 0)
+	if (D < 0)
 	{
-		//height
-		printf("%f\n", height);
-		t_vector center_p = mult_vecs(&cyl->orient, height);
-		front_point.reflec_dir = sub_vecs(&cyl_to_p, &center_p);
+		front_point.length = 0;
+		return (front_point);
+	}
+
+	// レイと円筒との距離を求める
+	double t_outer = (-B - sqrt(D)) / (2 * A);  // 円筒の外側
+	double t_inner = (-B + sqrt(D)) / (2 * A);  // 円筒の内側
+
+	// レイと縦に無限に伸びる円筒との交点
+	t_vector multed = mult_vecs(&cam_dir, t_outer);
+	t_vector p_outer = add_vecs(cam_pos, &multed);
+			 multed = mult_vecs(&cam_dir, t_inner);
+	t_vector p_inner = add_vecs(cam_pos, &multed);
+
+	t_vector center2p_outer = sub_vecs(&p_outer, &cyl->coord);
+	t_vector center2p_inner = sub_vecs(&p_inner, &cyl->coord);
+
+	// 底面から交点までの高さ
+	double height_outer = dot_vecs(&center2p_outer, &cyl->orient);
+	double height_inner = dot_vecs(&center2p_inner, &cyl->orient);
+	if (height_outer >= 0 && height_outer <= cyl->height)
+	{
+		t_vector multed = mult_vecs(&cyl->orient, height_outer);
+		front_point.reflec_dir = sub_vecs(&center2p_outer, &multed);
 		normalize(&front_point.reflec_dir);
+		front_point.coord = p_outer;
+		front_point.length = len_vector(&cam_pos, &front_point.coord);
 		front_point.cam_dir = cam_dir;
 		front_point.color = cyl->color;
-		front_point.length = len_vector(cam_pos, &front_point.coord);
 	}
+	else if (height_inner >= 0 && height_inner <= cyl->height)
+	{
+		t_vector multed = mult_vecs(&cyl->orient, height_inner);
+		front_point.reflec_dir = sub_vecs(&multed, &center2p_inner);
+		normalize(&front_point.reflec_dir);
+		front_point.coord = p_inner;
+		front_point.length = len_vector(&cam_pos, &front_point.coord);
+		front_point.cam_dir = cam_dir;
+		front_point.color = cyl->color;
+	}
+	else
+	{
+		front_point.length = 0;
+	}
+
 	return (front_point);
 }
 
+// only along y axis
 // t_front_point	colide_cam_ray_and_cylinder(t_vector cam_dir, t_vector *cam_pos, t_cylinder *cylinder)
 // {
 //     double A, B, C, D;
