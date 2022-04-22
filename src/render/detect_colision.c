@@ -32,15 +32,9 @@ int	detect_reflection(t_rt *rt_info, int x, int y)
 	if (intersection.length)
 	{
 		int	light = 0;
-		light += ambient_light(&rt_info->light, &intersection);
-		// hard shadow
-		t_vector shadow_ray = sub_vecs(&rt_info->light.coord, &intersection.coord);
-		double max_len = len_vector(&rt_info->light.coord, &intersection.coord);
-		shadow_ray = mult_vecs(&shadow_ray, epsilon);
-		t_vector is_plus = add_vecs(&intersection.coord, &shadow_ray);
-		if (is_in_shadow(&shadow_ray, &is_plus, &rt_info->objs, max_len))
+		light = make_light_color(light, rt_info->light.amb_color, rt_info->light.amb_br, intersection.color);
+		if (is_in_shadow(rt_info, &intersection, &rt_info->objs))
 			return (light);
-
 		// diffuse : It looks well...
 		t_vector light_dir;
 		light_dir = sub_vecs(&rt_info->light.coord, &intersection.coord);
@@ -48,25 +42,11 @@ int	detect_reflection(t_rt *rt_info, int x, int y)
 		double dot = dot_vecs(&intersection.reflec_dir, &light_dir);
 		dot = clamp(dot, 0, 1);
 		if (dot > 0)
-			light += make_light_color(rt_info->light.dif_color, rt_info->light.dif_br * dot, intersection.color);
-
-		//　specular
+			light = make_light_color(light, rt_info->light.dif_color, rt_info->light.dif_br * dot, intersection.color);
 		if (dot > 0)
 		{
-			t_vector	ref_dir;
-			t_vector	inv_cam_dir;
-			double		vr_dot;
-
-			ref_dir = mult_vecs(&intersection.reflec_dir, dot * 2);
-			ref_dir = sub_vecs(&ref_dir, &light_dir);
-			normalize(&ref_dir);
-			inv_cam_dir = mult_vecs(&cam_dir, -1);
-			normalize(&inv_cam_dir);
-			vr_dot = dot_vecs(&inv_cam_dir, &ref_dir);
-			vr_dot = clamp(vr_dot, 0, 1);
-			double shininess = 4;
-			double lum_spe = pow(vr_dot, shininess);
-			light += make_light_color(rt_info->light.spe_color, rt_info->light.spe_br * lum_spe, intersection.color);
+			double lum_spe = specular_reflection(light_dir, dot, cam_dir, intersection, rt_info);
+			light = make_light_color(light, rt_info->light.spe_color, rt_info->light.spe_br * lum_spe, intersection.color);
 			// BONUS: call detect_reflection recursively
 		}
 		return (light);

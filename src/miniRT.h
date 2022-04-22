@@ -1,11 +1,12 @@
 #ifndef MINIRT_H
 # define MINIRT_H
-# define epsilon 0.001
-#define TRUE 1
-#define FALSE 0
-#include "vector.h"
-#include <stdio.h>
-#include <stdbool.h>
+# define EPSILON 0.001
+# define TRUE 1
+# define FALSE 0
+# define SHININESS 4
+# include "vector.h"
+# include <stdio.h>
+# include <stdbool.h>
 
 typedef struct s_mlx
 {

@@ -6,7 +6,10 @@
 
 double	sphere_discriminant(t_vector eye_dir, t_vector obj_to_eye, t_sphere *spr)
 {
-    double A, B, C, D;
+	double	A;
+	double	B;
+	double	C;
+	double	D;
 
     A = squared_norm(&eye_dir);
     B = 2 * dot_vecs(&eye_dir, &obj_to_eye);
@@ -60,7 +63,7 @@ t_front_point	colide_cam_ray_and_plane(t_vector cam_dir, t_vector *cam_pos, t_pl
 	return (front_point);
 }
 
-//TODO: has buggs, when seen by outside, index 0 cylinder
+//TODO cylinder shadow is wrong along the x axis
 t_front_point	colide_cam_ray_and_cylinder(t_vector cam_dir, t_vector *cam_pos, t_cylinder *cyl)
 {
     double A, B, C, D;
@@ -69,13 +72,14 @@ t_front_point	colide_cam_ray_and_cylinder(t_vector cam_dir, t_vector *cam_pos, t
 	cross_vecs(&s, &cam_dir, &cyl->orient);
 	A = norm(&s);
 	A = square(A);
-	t_vector subbed = sub_vecs(cam_pos, &cyl->coord);
 	cross_vecs(&s, &cam_dir, &cyl->orient);
+	t_vector subbed = sub_vecs(cam_pos, &cyl->coord);
 	cross_vecs(&x, &subbed, &cyl->orient);
 	B = 2 * dot_vecs(&s, &x);
+	t_vector c_cross;
 	subbed = sub_vecs(cam_pos, &cyl->coord);
-	cross_vecs(&s, &subbed, &cyl->orient);
-	C = norm(&s);
+	cross_vecs(&c_cross, &subbed, &cyl->orient);
+	C = norm(&c_cross);
 	C = square(C) - square(cyl->diameter);
     D = square(B) - (double)4 * A * C;
 
@@ -87,8 +91,8 @@ t_front_point	colide_cam_ray_and_cylinder(t_vector cam_dir, t_vector *cam_pos, t
 	}
 
 	// レイと円筒との距離を求める
-	double t_outer = (-B - sqrt(D)) / (2 * A);  // 円筒の外側
-	double t_inner = (-B + sqrt(D)) / (2 * A);  // 円筒の内側
+	double t_outer = (-B - sqrt(D)) / ((double)2 * A);  // 円筒の外側
+	double t_inner = (-B + sqrt(D)) / ((double)2 * A);  // 円筒の内側
 
 	// レイと縦に無限に伸びる円筒との交点
 	t_vector multed = mult_vecs(&cam_dir, t_outer);
@@ -104,20 +108,20 @@ t_front_point	colide_cam_ray_and_cylinder(t_vector cam_dir, t_vector *cam_pos, t
 	double height_inner = dot_vecs(&center2p_inner, &cyl->orient);
 	if (height_outer >= 0 && height_outer <= cyl->height)
 	{
+		front_point.coord = p_outer;
 		t_vector multed = mult_vecs(&cyl->orient, height_outer);
 		front_point.reflec_dir = sub_vecs(&center2p_outer, &multed);
 		normalize(&front_point.reflec_dir);
-		front_point.coord = p_outer;
 		front_point.length = len_vector(&cam_pos, &front_point.coord);
 		front_point.cam_dir = cam_dir;
 		front_point.color = cyl->color;
 	}
 	else if (height_inner >= 0 && height_inner <= cyl->height)
 	{
+		front_point.coord = p_inner;
 		t_vector multed = mult_vecs(&cyl->orient, height_inner);
 		front_point.reflec_dir = sub_vecs(&multed, &center2p_inner);
 		normalize(&front_point.reflec_dir);
-		front_point.coord = p_inner;
 		front_point.length = len_vector(&cam_pos, &front_point.coord);
 		front_point.cam_dir = cam_dir;
 		front_point.color = cyl->color;

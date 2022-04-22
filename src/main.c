@@ -2,7 +2,7 @@
 #include "render.h"
 #include "parse.h"
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	printf("start\n");
 	t_rt	rt_info;
