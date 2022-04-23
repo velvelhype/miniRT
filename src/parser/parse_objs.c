@@ -3,12 +3,16 @@
 void	parse_sphere(t_rt *rt_info, char **tokens)
 {
 	t_sphere	sphere;
+	bool		flag;
 
+	flag = true;
 	if (tokens[1] == NULL || tokens[2] == NULL || tokens[3] == NULL || tokens[4] != NULL)
 		custom_exit("Ambient light: invalid number of arguments");
 	sphere.type = SPHERE;
 	sphere.coord = parse_vector3(tokens[1]);
-	sphere.diameter = ft_my_atof(tokens[2]);
+	sphere.diameter = ft_my_atof(tokens[2], &flag);
+	if (!flag)
+		custom_exit("Sphere: invalid diameter");
 	sphere.color = parse_color(tokens[3]);
 	ft_lstadd_back(&rt_info->objs, ft_lstnew(init_sphere(sphere)));
 }
@@ -29,14 +33,21 @@ void	parse_plane(t_rt *rt_info, char **tokens)
 void	parse_cylinder(t_rt *rt_info, char **tokens)
 {
 	t_cylinder	cylinder;
+	bool		flag;
 
-	if (tokens[1] == NULL || tokens[2] == NULL || tokens[3] == NULL || tokens[5] == NULL || tokens[6] != NULL)
+	flag = true;
+	if (tokens[1] == NULL || tokens[2] == NULL || tokens[3] == NULL ||
+		tokens[5] == NULL || tokens[6] != NULL)
 		custom_exit("Ambient light: invalid number of arguments");
 	cylinder.type = CYLINDER;
 	cylinder.coord = parse_vector3(tokens[1]);
 	cylinder.orient = parse_vector3(tokens[2]);
-	cylinder.diameter = ft_my_atof(tokens[3]);
-	cylinder.height = ft_my_atof(tokens[4]);
+	cylinder.diameter = ft_my_atof(tokens[3], &flag);
+	if (!flag)
+		custom_exit("Cylinder: invalid diameter");
+	cylinder.height = ft_my_atof(tokens[4], &flag);
+	if (!flag)
+		custom_exit("Cylinder: invalid height");
 	cylinder.color = parse_color(tokens[5]);
 	ft_lstadd_back(&rt_info->objs, ft_lstnew(init_cylinder(cylinder)));
 }

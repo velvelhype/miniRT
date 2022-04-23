@@ -6,7 +6,7 @@
 /*   By: akito <akito@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 20:14:14 by akito             #+#    #+#             */
-/*   Updated: 2022/04/10 15:42:19 by akito            ###   ########.fr       */
+/*   Updated: 2022/04/23 15:16:25 by akito            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int64_t	ft_my_putnbr(int n);
 int64_t	ft_my_unsigned_putnbr(unsigned int n);
 int64_t	ft_my_putbase(size_t n, char *base);
 int64_t	ft_my_putpointer(size_t n);
-double	ft_my_atof(const char *nptr);
+double	ft_my_atof(const char *nptr, bool *flag);
 bool	ft_streq(char *a, char *b);
 
 typedef struct s_list

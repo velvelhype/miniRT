@@ -61,7 +61,7 @@ fclean: clean
 	make fclean -C $(LIBFT_DIR) || :
 	make fclean -C $(LIBPARSER_DIR) || :
 	rm -f $(NAME)
-	rm libmlx_Linux.a
+	rm -f libmlx_Linux.a
 
 re: fclean all
 
@@ -87,4 +87,4 @@ test: test-build
 
 
 test-build: $(GTEST)  $(LIBFT) $(LIBPARSER)
-	make -C ./test
+	make -C ./test re

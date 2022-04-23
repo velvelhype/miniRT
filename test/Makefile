@@ -28,9 +28,9 @@ YELLOW		=	'\033[33m'
 RESET		=	'\033[0m'
 
 
-SRCS = src/parser_test.cpp \
-		src/test_helper.cpp\
-		src/test.cpp\
+SRCS = src/test_helper.cpp\
+		src/atof_test.cpp\
+		src/parser_test.cpp \
 
 OBJS = $(SRCS:.cpp=.o)
 
