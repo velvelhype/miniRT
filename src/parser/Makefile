@@ -26,6 +26,7 @@ SRCS = get_next_line.c \
 		sphere.c\
 		plane.c\
 		cylinder.c\
+		file_open.c\
 		# dummy_parse.c \
 
 OBJS = $(SRCS:.c=.o)

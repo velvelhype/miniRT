@@ -20,9 +20,7 @@ void	parse(char *filename, t_rt *rt_info)
 	bool	used[UNIQUE_OBJ_SIZE];
 
 	init_used_flags(used);
-	fd = open(filename, O_RDONLY);
-	if (fd < 0)
-		custom_exit(NULL);
+	fd = file_open(filename);
 	line = get_next_line(fd);
 	while (line)
 	{
