@@ -30,13 +30,13 @@ t_vector make_cam_dir(t_coord *coords, int x, int y)
 t_color	detect_reflection(t_rt *rt_info, int x, int y)
 {
 	t_vector cam_dir = make_cam_dir(&rt_info->coords, x, y);
-	t_front_point intersection = colide_ray_and_objs(&cam_dir, &rt_info->coords.camera.pos, &rt_info->objs);
+	t_front_point intersection = colide_ray_and_objs(&cam_dir, &rt_info->coords.camera.pos, rt_info->objs);
 	t_color	light = {0};
 
 	if (intersection.length)
 	{
 		light = make_light_color(light, rt_info->light.color, rt_info->light.br_ratio, intersection.color);
-		if (is_in_shadow(rt_info, &intersection, &rt_info->objs))
+		if (is_in_shadow(rt_info, &intersection, rt_info->objs))
 			return (light);
 		// diffuse : It looks well...
 		t_vector light_dir;
