@@ -5,3 +5,12 @@ mlx_init.swiftsourceinfo
 mlx_image.swiftsourceinfo
 mlx_window.swiftsourceinfo
 libmlx.dylib
+libmlx_Linux.a
+*.o
+*.a
+
+/.vscode
+test/googletest-release-1.11.0
+tester
+*.a
+*.pdf

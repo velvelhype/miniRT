@@ -28,10 +28,10 @@ t_front_point	colide_cam_ray_and_sphere(t_vector cam_dir, t_vector *cam_pos, t_s
 	if (t > 0)
 	{
 		t_vector multed = mult_vecs(&cam_dir, t);
-		front_point.coord = add_vecs(cam_pos, &multed);
+		front_point.coord = add_vecs(&coords->camera.pos, &multed);
 		front_point.reflec_dir = sub_vecs(&front_point.coord, &sphere->coord);
 		normalize(&front_point.reflec_dir);
-		front_point.length = len_vector(cam_pos, &front_point.coord);
+		front_point.length = len_vector(&coords->camera.pos, &front_point.coord);
 		front_point.cam_dir = cam_dir;
 		front_point.color = sphere->color;
 	}
@@ -159,7 +159,7 @@ t_front_point	colide_cam_ray_and_cylinder(t_vector cam_dir, t_vector *cam_pos, t
 // 	{
 // 		t_vector multed = mult_vecs(&cam_dir, t);
 // 		front_point.coord = add_vecs(cam_pos, &multed);
-	
+
 // 		// replace mod to len_vector(front_point, intersection);
 // 		if (cylinder->height < mod(front_point.coord.y - cylinder->coord.y))
 // 			return (front_point);
@@ -178,7 +178,7 @@ t_front_point	colide_ray_and_objs(t_vector *cam_dir, t_vector *cam_pos, t_objs	*
 {
 	t_front_point nearest_front;
 	t_front_point new_front;
- 
+
 	nearest_front.length = 0;
 	int i = 0;
 	while (objs->spheres[i].is_end == false)

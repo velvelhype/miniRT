@@ -20,7 +20,10 @@ t_vector make_cam_dir(t_coord *coords, int x, int y)
 	t_vector screen_point;
 
 	make_screen_point(&screen_point, coords, x, y);
-	cam_dir = sub_vecs(&screen_point, &coords->cam_pos);
+	cam_dir = sub_vecs(&screen_point, &coords->camera.pos);
+	// printf("sc point:");
+	// print_vecs(&screen_point);
+	// print_vecs(&cam_dir);
 	return (cam_dir);
 }
 
