@@ -12,6 +12,7 @@ double	quadratic_equation(double A, double B, double C, double D)
 	double	t1;
 	double	t2;
 
+	(void)C;
 	t = 0;
 	if (D == 0)
 		t = -B / (2 * A);

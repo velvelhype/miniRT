@@ -17,10 +17,10 @@ void	init_mlx(t_rt *rt_info, t_mlx *mlx)
 
 void	make_screen(t_coord	*coords)
 {
-	t_vector cam_to_sc_center = mult_vecs((&coords->cam_orient),
-	coords->max_width / tan(coords->cam_FOV * 0.5 * M_PI / (double)180));
+	t_vector cam_to_sc_center = mult_vecs((&coords->camera.orient),
+	coords->max_width / tan(coords->camera.fov * 0.5 * M_PI / (double)180));
 	printf("dummy_make_screen\n");
-	t_vector sc_center = add_vecs(&coords->cam_pos, &cam_to_sc_center);
+	t_vector sc_center = add_vecs(&coords->camera.pos, &cam_to_sc_center);
 	t_vector x_basis;
 	x_basis.x = cam_to_sc_center.z / sqrt(cam_to_sc_center.z * cam_to_sc_center.z + cam_to_sc_center.x * cam_to_sc_center.x);
 	x_basis.y = 0;
@@ -29,9 +29,9 @@ void	make_screen(t_coord	*coords)
 	t_vector multed = mult_vecs(&cam_to_sc_center, -1);
 	cross_vecs(&y_basis, &x_basis, &multed);
 	normalize(&y_basis);
-	if (coords->cam_orient.x == 0 && coords->cam_orient.y != 0 && coords->cam_orient.z == 0)
+	if (coords->camera.orient.x == 0 && coords->camera.orient.y != 0 && coords->camera.orient.z == 0)
 	{
-		if (coords->cam_orient.y > 0)
+		if (coords->camera.orient.y > 0)
 		{
 			init_vector(&x_basis, -1, 0, 0);
 			init_vector(&y_basis, 0, 0, -1);
@@ -63,7 +63,7 @@ void	render(t_rt *rt_info, t_mlx *mlx_config)
 	{
 		while (x < rt_info->coords.max_width)
 		{
-			double	color;
+			t_color	color;
 			color = detect_reflection(rt_info, x, y);
 			my_pixel_put(mlx_config, x, y, color, &rt_info->coords);
 			x++;

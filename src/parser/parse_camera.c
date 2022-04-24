@@ -8,7 +8,8 @@ void	parse_camera(t_rt *rt_info, char **tokens, bool is_used)
 	if (is_used)
 		custom_exit("Camera: invalid number of arguments");
 	cam = &rt_info->coords.camera;
-	if (tokens[1] == NULL || tokens[2] == NULL || tokens[3] == NULL || tokens[4] != NULL)
+	if (tokens[1] == NULL || tokens[2] == NULL || tokens[3] == NULL ||
+		tokens[4] != NULL)
 		custom_exit("Ambient light: invalid number of arguments");
 	cam->pos = parse_vector3(tokens[1]);
 	cam->orient = parse_vector3(tokens[2]);

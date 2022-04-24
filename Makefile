@@ -11,6 +11,7 @@ HEADERS = src \
 			src/minilibx-linux \
 			src/vector \
 			src/ternary_operation \
+			src/simple_operation \
 
 INCLUDES = $(addprefix -I, $(HEADERS))
 LXFLAGS		=	-lXext -lX11 -lm
@@ -26,7 +27,6 @@ CFLAGS = -O3 $(INCLUDES) $(LXFLAGS) -g -Wall -Wextra -Werror
 # CFLAGS = -O3 -Werror -Wall -Wextra -g -fsanitize=address -Iinclude
 
 SRCS = src/main.c \
-	src/parser/dummy_parse.c \
 	src/render/render.c \
 	src/render/my_pixel_put.c \
 	src/render/detect_colision.c \
@@ -38,6 +38,7 @@ SRCS = src/main.c \
 	src/vector/vector_debug.c \
 	src/simple_operation/ternary_operation.c \
 	src/simple_operation/simple_operation.c \
+	# src/parser/dummy_parse.c \
 
 OBJS = $(SRCS:.c=.o)
 

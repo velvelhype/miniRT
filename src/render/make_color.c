@@ -4,25 +4,21 @@
 
 
 //TODO it is different from phong's manipulation
-int	make_light_color(int light, int color, double br, int pt_color)
+t_color	make_light_color(t_color light, t_color color, double br, t_color pt_color)
 {
-	int		red;
-	int		green;
-	int		blue;
+	t_color res_color;
 
-	red = (light >> 16) & 0xFF;
-	green = (light >> 8) & 0xFF;
-	blue = light & 0xFF;
-	red += (((color >> 16) & 0xFF) * br * (((pt_color >> 16) & 0xFF) / 0xFF));
-	green += (((color >> 8) & 0xFF) * br * (((pt_color >> 8) & 0xFF) / 0xFF));
-	blue += ((color & 0xFF) * br * ((pt_color & 0xFF) / 0xFF));
-	red = clamp(red, 0, 255);
-	green = clamp(green, 0, 255);
-	blue = clamp(blue, 0, 255);
-	return ((red << 16) | (green << 8) | blue);
+	res_color = light;
+	res_color.red += color.red * br * (pt_color.red / 0xFF);
+	res_color.green += color.green * br * (pt_color.green / 0xFF);
+	res_color.blue += color.blue * br * (pt_color.blue / 0xFF);
+	res_color.red = clamp(res_color.red, 0, 255);
+	res_color.green = clamp(res_color.green, 0, 255);
+	res_color.blue = clamp(res_color.blue, 0, 255);
+	return (res_color);
 }
 
-double	specular_reflection(t_vector light_dir, double dot, t_vector cam_dir, t_front_point intersection, t_rt *rt_info)
+double	specular_reflection(t_vector light_dir, double dot, t_vector cam_dir, t_front_point intersection)
 {
 	t_vector	ref_dir;
 	t_vector	inv_cam_dir;

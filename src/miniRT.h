@@ -40,24 +40,12 @@ typedef struct s_coord
 {
 	int			max_width;
 	int			max_height;
-	int			cam_FOV;
-	t_vector	cam_pos;
-	t_vector	cam_orient;
+	t_camera	camera;
 	t_vector	sc_bot_left;
 	t_vector	sc_diff_x;
 	t_vector	sc_diff_y;
 }	t_coord;
 
-//  typedef struct s_coord
-// {
-// 	int max_width;
-// 	int max_height;
-// 	// TODO make camera structure
-// 	t_camera camera;
-// 	t_vector sc_bot_left;
-// 	t_vector sc_diff_x;
-// 	t_vector sc_diff_y;
-// } t_coord;
 
 typedef struct s_color
 {
