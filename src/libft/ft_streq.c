@@ -1,7 +1,7 @@
 #include "libft.h"
 #include <stdbool.h>
 
-bool	ft_streq(char *a, char *b)
+bool	ft_streq(const char *a, const char *b)
 {
 	if (ft_strlen(a) != ft_strlen(b))
 		return (false);

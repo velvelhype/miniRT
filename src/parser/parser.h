@@ -41,5 +41,6 @@ void parse_objs(t_rt *rt_info, char **tokens, t_obj_type type);
 t_sphere *init_sphere(t_sphere sphere);
 t_plane *init_plane(t_plane plane);
 t_cylinder *init_cylinder(t_cylinder cylinder);
+int file_open(char *filename);
 
 #endif
