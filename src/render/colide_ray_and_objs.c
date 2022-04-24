@@ -174,48 +174,70 @@ t_front_point	colide_cam_ray_and_cylinder(t_vector cam_dir, t_vector *cam_pos, t
 // 	return (front_point);
 // }
 
-t_front_point	colide_ray_and_objs(t_vector *cam_dir, t_vector *cam_pos, t_objs	*objs)
+t_front_point	colide_ray_and_objs(t_vector *cam_dir, t_vector *cam_pos, t_lst	*objs)
 {
 	t_front_point nearest_front;
 	t_front_point new_front;
 
 	nearest_front.length = 0;
-	int i = 0;
-	while (objs->spheres[i].is_end == false)
+	while (objs)
 	{
-		new_front = colide_cam_ray_and_sphere(*cam_dir, cam_pos, &objs->spheres[i]);
+		if (objs->content.type == SPHERE)
+			new_front = colide_cam_ray_and_sphere(*cam_dir, cam_pos, &objs->content);
+		if (objs->content.type == PLANE)
+			new_front = colide_cam_ray_and_plane(*cam_dir, cam_pos, &objs->content);
+		if (objs->content.type == CYLINDER)
+			new_front = colide_cam_ray_and_cylinder(*cam_dir, cam_pos, &objs->content);
 		if (new_front.length)
 			if (nearest_front.length == 0 || new_front.length < nearest_front.length)
 				nearest_front = new_front;
-		i++;
-	}
-
-	i = 0;
-	while (objs->planes[i].is_end == false)
-	{
-		new_front = colide_cam_ray_and_plane(*cam_dir, cam_pos, &objs->planes[i]);
-		if (new_front.length)
-		{
-			if (nearest_front.length == 0 || new_front.length < nearest_front.length)
-				{
-					nearest_front = new_front;
-				}
-		}
-		i++;
-	}
-
-	i = 0;
-	while (objs->cylinders[i].is_end == false)
-	{
-		new_front = colide_cam_ray_and_cylinder(*cam_dir, cam_pos, &objs->cylinders[i]);
-		if (new_front.length)
-		{
-			if (nearest_front.length == 0 || new_front.length < nearest_front.length)
-				{
-					nearest_front = new_front;
-				}
-		}
-		i++;
+		objs = objs->next;
 	}
 	return (nearest_front);
 }
+
+// t_front_point	colide_ray_and_objs(t_vector *cam_dir, t_vector *cam_pos, t_objs	*objs)
+// {
+// 	t_front_point nearest_front;
+// 	t_front_point new_front;
+
+// 	nearest_front.length = 0;
+// 	int i = 0;
+// 	while (objs->spheres[i].is_end == false)
+// 	{
+// 		new_front = colide_cam_ray_and_sphere(*cam_dir, cam_pos, &objs->spheres[i]);
+// 		if (new_front.length)
+// 			if (nearest_front.length == 0 || new_front.length < nearest_front.length)
+// 				nearest_front = new_front;
+// 		i++;
+// 	}
+
+// 	i = 0;
+// 	while (objs->planes[i].is_end == false)
+// 	{
+// 		new_front = colide_cam_ray_and_plane(*cam_dir, cam_pos, &objs->planes[i]);
+// 		if (new_front.length)
+// 		{
+// 			if (nearest_front.length == 0 || new_front.length < nearest_front.length)
+// 				{
+// 					nearest_front = new_front;
+// 				}
+// 		}
+// 		i++;
+// 	}
+
+// 	i = 0;
+// 	while (objs->cylinders[i].is_end == false)
+// 	{
+// 		new_front = colide_cam_ray_and_cylinder(*cam_dir, cam_pos, &objs->cylinders[i]);
+// 		if (new_front.length)
+// 		{
+// 			if (nearest_front.length == 0 || new_front.length < nearest_front.length)
+// 				{
+// 					nearest_front = new_front;
+// 				}
+// 		}
+// 		i++;
+// 	}
+// 	return (nearest_front);
+// }
