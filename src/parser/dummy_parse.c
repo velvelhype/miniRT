@@ -7,7 +7,7 @@ void	dummy_init_coord(t_coord *coord)
 	coord->max_height = 500;
 	coord->max_width = 500;
 	coord->cam_FOV = 90;
-	init_vector(&coord->cam_pos, 0, -150, -10);
+	init_vector(&coord->cam_pos, 0, -150, 0);
 	init_vector(&coord->cam_orient, 0, 0, 1);
 }
 
@@ -93,7 +93,6 @@ void	dummy_init_objs(t_objs *objs)
 	(objs->cylinders)[6].diameter = 0.1;
 	(objs->cylinders)[6].height = 1;
 	(objs->cylinders)[6].is_end = 0;
-	
 	(objs->cylinders)[7].is_end = true;
 }
 

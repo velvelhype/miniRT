@@ -19,10 +19,8 @@ void	make_screen(t_coord	*coords)
 {
 	t_vector cam_to_sc_center = mult_vecs((&coords->cam_orient),
 	coords->max_width / tan(coords->cam_FOV * 0.5 * M_PI / (double)180));
-	print_vecs(&cam_to_sc_center);
 	printf("dummy_make_screen\n");
 	t_vector sc_center = add_vecs(&coords->cam_pos, &cam_to_sc_center);
-
 	t_vector x_basis;
 	x_basis.x = cam_to_sc_center.z / sqrt(cam_to_sc_center.z * cam_to_sc_center.z + cam_to_sc_center.x * cam_to_sc_center.x);
 	x_basis.y = 0;
@@ -44,19 +42,12 @@ void	make_screen(t_coord	*coords)
 			init_vector(&y_basis, 0, 0, 1);
 		}
 	}
-
 	multed = mult_vecs(&x_basis, coords->max_width / (double)2);
 	coords->sc_bot_left = sub_vecs(&sc_center, &multed);
 	multed = mult_vecs(&y_basis, coords->max_height / (double)2);
 	coords->sc_bot_left = sub_vecs(&coords->sc_bot_left, &multed);
-
-	print_vecs(&coords->sc_bot_left);
 	coords->sc_diff_x = x_basis;
 	coords->sc_diff_y = y_basis;
-
-	// init_vector(&coords->sc_bot_left, -1, -1, -8);
-	// init_vector(&coords->sc_diff_x, (double)2 / coords->max_width, 0, 0);
-	// init_vector(&coords->sc_diff_y, 0, (double)2 / coords->max_height, 0);
 }
 
 void	render(t_rt *rt_info, t_mlx *mlx_config)
