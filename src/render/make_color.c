@@ -9,12 +9,14 @@ t_color	make_light_color(t_color light, t_color color, double br, t_color pt_col
 	t_color res_color;
 
 	res_color = light;
-	res_color.red += color.red * br * (pt_color.red / 0xFF);
-	res_color.green += color.green * br * (pt_color.green / 0xFF);
-	res_color.blue += color.blue * br * (pt_color.blue / 0xFF);
+	res_color.red += color.red * br * ((double)pt_color.red / (double)0xFF);
+	res_color.green += color.green * br * ((double)pt_color.green / (double)0xFF);
+	res_color.blue += color.blue * br * ((double)pt_color.blue / (double)0xFF);
+	// printf("%d %d %d\n", res_color.red, res_color.green, res_color.blue);
 	res_color.red = clamp(res_color.red, 0, 255);
 	res_color.green = clamp(res_color.green, 0, 255);
 	res_color.blue = clamp(res_color.blue, 0, 255);
+
 	return (res_color);
 }
 
