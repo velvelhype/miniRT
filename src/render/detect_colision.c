@@ -48,6 +48,7 @@ t_color	detect_reflection(t_rt *rt_info, int x, int y)
 			light = make_light_color(light, rt_info->light.color, rt_info->light.br_ratio * dot, intersection.color);
 		if (dot > 0)
 		{
+			//TODO spcular compared to the MAC ver and check the cylinder.
 			double lum_spe = specular_reflection(light_dir, dot, cam_dir, intersection);
 			light = make_light_color(light, rt_info->light.color, rt_info->light.br_ratio * lum_spe, intersection.color);
 			// BONUS: call detect_reflection recursively
