@@ -34,7 +34,7 @@ t_front_point	colide_cam_ray_and_sphere(t_vector cam_dir, t_vector *cam_pos, t_s
 		//if sphere is inside reverse the vector of the reflection
 		if (dot_vecs(&cam_dir, &front_point.reflec_dir) > 0)
 			front_point.reflec_dir = mult_vecs(&front_point.reflec_dir, -1);
-		
+
 		front_point.length = len_vector(cam_pos, &front_point.coord);
 		front_point.cam_dir = cam_dir;
 		front_point.color = sphere->color;
@@ -45,21 +45,25 @@ t_front_point	colide_cam_ray_and_sphere(t_vector cam_dir, t_vector *cam_pos, t_s
 t_front_point	colide_cam_ray_and_plane(t_vector cam_dir, t_vector *cam_pos, t_plane *plane)
 {
 	t_front_point front_point;
-
 	front_point.length = 0;
-	if (dot_vecs(&cam_dir, &plane->orient) > 0)
+	
+	t_vector c_cam = sub_vecs(cam_pos, &plane->coord);
+	t_vector multed = mult_vecs(&cam_dir, -1);
+	double ray_pl_dot = dot_vecs(&multed, &plane->orient);
+	if (ray_pl_dot != (double)0)
 	{
-		t_vector sub = sub_vecs(&plane->coord, cam_pos);
-		double t = dot_vecs(&sub, &plane->orient);
-		t /= dot_vecs(&cam_dir, &plane->orient);
-		t_vector multed = mult_vecs(&cam_dir, t);
+		double t = dot_vecs(&c_cam, &plane->orient) / ray_pl_dot;
+		if (t < 0)
+			return (front_point);
+		multed = mult_vecs(&cam_dir, t);
 		front_point.coord = add_vecs(cam_pos, &multed);
-		// judge front or back
-		if (dot_vecs(&cam_dir, &plane->orient) > 0)
+
+		if (ray_pl_dot <  (double)0)
 			front_point.reflec_dir = mult_vecs(&plane->orient, -1);
 		else
 			front_point.reflec_dir = plane->orient;
 		normalize(&front_point.reflec_dir);
+
 		front_point.length = len_vector(cam_pos, &front_point.coord);
 		front_point.cam_dir = cam_dir;
 		front_point.color = plane->color;
@@ -70,6 +74,9 @@ t_front_point	colide_cam_ray_and_plane(t_vector cam_dir, t_vector *cam_pos, t_pl
 //TODO cylinder shadow is wrong along the x axis
 t_front_point	colide_cam_ray_and_cylinder(t_vector cam_dir, t_vector *cam_pos, t_cylinder *cyl)
 {
+	t_front_point front_point;
+	front_point.length = 0;
+
     double A, B, C, D;
 	t_vector s;
 	t_vector x;
@@ -79,7 +86,7 @@ t_front_point	colide_cam_ray_and_cylinder(t_vector cam_dir, t_vector *cam_pos, t
 	cross_vecs(&s, &cam_dir, &cyl->orient);
 	t_vector subbed = sub_vecs(cam_pos, &cyl->coord);
 	cross_vecs(&x, &subbed, &cyl->orient);
-	B = 2 * dot_vecs(&s, &x);
+	B = (double)2 * dot_vecs(&s, &x);
 	t_vector c_cross;
 	subbed = sub_vecs(cam_pos, &cyl->coord);
 	cross_vecs(&c_cross, &subbed, &cyl->orient);
@@ -87,12 +94,8 @@ t_front_point	colide_cam_ray_and_cylinder(t_vector cam_dir, t_vector *cam_pos, t
 	C = square(C) - square(cyl->diameter);
     D = square(B) - (double)4 * A * C;
 
-	t_front_point front_point;
 	if (D < 0)
-	{
-		front_point.length = 0;
 		return (front_point);
-	}
 
 	// レイと円筒との距離を求める
 	double t_outer = (-B - sqrt(D)) / ((double)2 * A);  // 円筒の外側
@@ -131,10 +134,10 @@ t_front_point	colide_cam_ray_and_cylinder(t_vector cam_dir, t_vector *cam_pos, t
 		front_point.cam_dir = cam_dir;
 		front_point.color = cyl->color;
 	}
-	else
-	{
-		front_point.length = 0;
-	}
+
+	// height_outer *= 1;
+	// height_inner *= 1;
+
 	return (front_point);
 }
 
@@ -201,49 +204,3 @@ t_front_point	colide_ray_and_objs(t_vector *cam_dir, t_vector *cam_pos, t_list	*
 	}
 	return (nearest_front);
 }
-
-// t_front_point	colide_ray_and_objs(t_vector *cam_dir, t_vector *cam_pos, t_objs	*objs)
-// {
-// 	t_front_point nearest_front;
-// 	t_front_point new_front;
-
-// 	nearest_front.length = 0;
-// 	int i = 0;
-// 	while (objs->spheres[i].is_end == false)
-// 	{
-// 		new_front = colide_cam_ray_and_sphere(*cam_dir, cam_pos, &objs->spheres[i]);
-// 		if (new_front.length)
-// 			if (nearest_front.length == 0 || new_front.length < nearest_front.length)
-// 				nearest_front = new_front;
-// 		i++;
-// 	}
-
-// 	i = 0;
-// 	while (objs->planes[i].is_end == false)
-// 	{
-// 		new_front = colide_cam_ray_and_plane(*cam_dir, cam_pos, &objs->planes[i]);
-// 		if (new_front.length)
-// 		{
-// 			if (nearest_front.length == 0 || new_front.length < nearest_front.length)
-// 				{
-// 					nearest_front = new_front;
-// 				}
-// 		}
-// 		i++;
-// 	}
-
-// 	i = 0;
-// 	while (objs->cylinders[i].is_end == false)
-// 	{
-// 		new_front = colide_cam_ray_and_cylinder(*cam_dir, cam_pos, &objs->cylinders[i]);
-// 		if (new_front.length)
-// 		{
-// 			if (nearest_front.length == 0 || new_front.length < nearest_front.length)
-// 				{
-// 					nearest_front = new_front;
-// 				}
-// 		}
-// 		i++;
-// 	}
-// 	return (nearest_front);
-// }
