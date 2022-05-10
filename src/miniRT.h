@@ -4,7 +4,7 @@
 #define EPSILON_F 0.001
 #define TRUE 1
 #define FALSE 0
-# define SHININESS 4
+# define SHININESS 14
 
 #include "libft.h"
 #include "vector.h"
