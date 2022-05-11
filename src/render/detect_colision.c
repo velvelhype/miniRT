@@ -32,7 +32,7 @@ t_color	detect_reflection(t_rt *rt_info, int x, int y)
 	t_vector cam_dir = make_cam_dir(&rt_info->coords, x, y);
 	t_front_point intersection = colide_ray_and_objs(&cam_dir, &rt_info->coords.camera.pos, rt_info->objs);
 	t_color	light = {0};
-
+	
 	if (intersection.length)
 	{
 		light = make_light_color(light, rt_info->light.color, rt_info->light.br_ratio, intersection.color);
