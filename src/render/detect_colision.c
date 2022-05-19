@@ -21,9 +21,6 @@ t_vector make_cam_dir(t_coord *coords, int x, int y)
 
 	make_screen_point(&screen_point, coords, x, y);
 	cam_dir = sub_vecs(&screen_point, &coords->camera.pos);
-	// printf("sc point:");
-	// print_vecs(&screen_point);
-	// print_vecs(&cam_dir);
 	return (cam_dir);
 }
 
@@ -35,25 +32,32 @@ t_color	detect_reflection(t_rt *rt_info, int x, int y)
 	
 	if (intersection.length)
 	{
-		light = make_light_color(light, rt_info->light.color, rt_info->light.br_ratio, intersection.color);
-		if (is_in_shadow(rt_info, &intersection, rt_info->objs))
-			return (light);
-		// diffuse : It looks well...
-		t_vector light_dir;
-		light_dir = sub_vecs(&rt_info->light.coord, &intersection.coord);
-		normalize(&light_dir);
-		double dot = dot_vecs(&intersection.reflec_dir, &light_dir);
-		dot = clamp(dot, 0, 1);
-		if (dot > 0)
-			light = make_light_color(light, rt_info->light.color, rt_info->light.br_ratio * dot, intersection.color);
-		if (dot > 0)
+		t_luminance lum = {0};
+		make_lum(&lum, &rt_info->ambient.color, rt_info->ambient.br_ratio);
+		printf("%f\n", lum.red);
+		//
+		if (!is_in_shadow(rt_info, &intersection, rt_info->objs))
 		{
-			//TODO spcular compared to the MAC ver and check the cylinder.
-			double lum_spe = specular_reflection(light_dir, dot, cam_dir, intersection);
-			light = make_light_color(light, rt_info->light.color, rt_info->light.br_ratio * lum_spe, intersection.color);
-			// BONUS: call detect_reflection recursively
+			// diffuse : It looks well...
+			t_vector light_dir;
+			light_dir = sub_vecs(&rt_info->light.coord, &intersection.coord);
+			normalize(&light_dir);
+			double dot = dot_vecs(&intersection.reflec_dir, &light_dir);
+			dot = clamp(dot, 0, 1);
+			if (dot > 0)
+			{
+				// add difuse luminance
+				make_lum(&lum, &intersection.color, rt_info->light.br_ratio * dot);
+				//
+			}
+			if (dot > 0)
+			{
+				double lum_spe = specular_reflection(light_dir, dot, cam_dir, intersection);
+				make_lum(&lum, &intersection.color, rt_info->light.br_ratio * lum_spe);
+				// BONUS: call detect_reflection recursively
+			}
 		}
-		return (light);
+		return (make_light_from_lum(lum));
 	}
 	return (light);
 }

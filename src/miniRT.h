@@ -92,6 +92,13 @@ typedef struct s_cylinder
 	t_color color;
 } t_cylinder;
 
+typedef struct s_luminance
+{
+    double red;
+    double green;
+    double blue;
+} t_luminance;
+
 typedef struct s_light
 {
 	double br_ratio;

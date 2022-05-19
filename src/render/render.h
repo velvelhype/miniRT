@@ -16,7 +16,8 @@ t_color				detect_reflection(t_rt *rt_info, int x, int y);
 
 void			my_pixel_put(t_mlx *mlx_info, int x, int y, t_color color, t_coord *coords);
 
-t_color				make_light_color(t_color light, t_color color, double br, t_color pt_color);
+void			make_lum(t_luminance *lum, t_color *color, double ratio);
+t_color			make_light_from_lum(t_luminance lum);
 int				diffuse_and_specular_reflection(t_vector *cam_dir, t_light *light, t_front_point *intersection);
 double			specular_reflection(t_vector light_dir, double dot, t_vector cam_dir, t_front_point intersection);
 

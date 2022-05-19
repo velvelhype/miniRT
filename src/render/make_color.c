@@ -3,21 +3,19 @@
 #include "render.h"
 
 
-//TODO it is different from phong's manipulation
-t_color	make_light_color(t_color light, t_color color, double br, t_color pt_color)
+void make_lum(t_luminance *lum, t_color *color, double ratio)
 {
-	t_color res_color;
+	lum->red += (double)color->red / (double)255 * ratio; 
+	lum->green += (double)color->green / (double)255 * ratio; 
+	lum->blue += (double)color->blue / (double)255 * ratio; 
+}
 
-	res_color = light;
-	res_color.red += color.red * br * ((double)pt_color.red / (double)0xFF);
-	res_color.green += color.green * br * ((double)pt_color.green / (double)0xFF);
-	res_color.blue += color.blue * br * ((double)pt_color.blue / (double)0xFF);
-	// printf("%d %d %d\n", res_color.red, res_color.green, res_color.blue);
-	res_color.red = clamp(res_color.red, 0, 255);
-	res_color.green = clamp(res_color.green, 0, 255);
-	res_color.blue = clamp(res_color.blue, 0, 255);
-
-	return (res_color);
+t_color make_light_from_lum(t_luminance lum){
+	t_color light = {0};
+	light.red = (double)255 * clamp(lum.red, 0, 1);
+	light.green = (double)255 * clamp(lum.green, 0, 1);
+	light.blue = (double)255 * clamp(lum.blue, 0, 1);
+	return light;
 }
 
 double	specular_reflection(t_vector light_dir, double dot, t_vector cam_dir, t_front_point intersection)
