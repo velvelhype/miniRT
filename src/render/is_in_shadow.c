@@ -46,7 +46,7 @@ bool	is_in_shadow(t_rt *rt_info, t_front_point *intersection ,t_list	*objs)
 				// is longer than front_point_ to cam
 				// if (len_vector(&new_front.coord, &rt_info->light.coord) > new_front.length)
 				// if (len_vector(&new_front.coord, &rt_info->light.coord) > new_front.length + 330)
-				if (len_vector(&new_front.coord, &rt_info->light.coord) > (double)max_len - 0.5)
+				if (len_vector(&new_front.coord, &rt_info->light.coord) > (double)max_len - EPSILON_F)
 					return (FALSE);
 			}
 		}
