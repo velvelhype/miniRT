@@ -6,6 +6,7 @@ HEADERS = ../ \
 			../libft \
 			../vector \
 			../ternary_operation \
+			../simple_operation \
 
 INCLUDES = $(addprefix -I, $(HEADERS))
 LXFLAGS		=	-lXext -lX11 -lm
@@ -27,6 +28,7 @@ SRCS = get_next_line.c \
 		plane.c\
 		cylinder.c\
 		file_open.c\
+		parse_color.c\
 		# dummy_parse.c \
 
 OBJS = $(SRCS:.c=.o)

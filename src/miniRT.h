@@ -4,6 +4,7 @@
 #define EPSILON_F 0.001
 #define TRUE 1
 #define FALSE 0
+# define SHININESS 14
 
 #include "libft.h"
 #include "vector.h"
@@ -37,14 +38,14 @@ typedef struct s_camera
 
 typedef struct s_coord
 {
-	int max_width;
-	int max_height;
-	// TODO make camera structure
-	t_camera camera;
-	t_vector sc_bot_left;
-	t_vector sc_diff_x;
-	t_vector sc_diff_y;
-} t_coord;
+	int			max_width;
+	int			max_height;
+	t_camera	camera;
+	t_vector	sc_bot_left;
+	t_vector	sc_diff_x;
+	t_vector	sc_diff_y;
+}	t_coord;
+
 
 typedef struct s_color
 {
@@ -90,6 +91,13 @@ typedef struct s_cylinder
 	double height;
 	t_color color;
 } t_cylinder;
+
+typedef struct s_luminance
+{
+    double red;
+    double green;
+    double blue;
+} t_luminance;
 
 typedef struct s_light
 {

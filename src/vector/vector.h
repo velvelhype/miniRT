@@ -1,6 +1,6 @@
 #ifndef VECTOR_H
 # define VECTOR_H
-# include "ternary_operation.h"
+# include "simple_operation.h"
 
 typedef struct s_vector
 {
@@ -10,7 +10,7 @@ typedef struct s_vector
 }	t_vector;
 
 double		len_vector(t_vector	*v1, t_vector *v2);
-void		init_vector(t_vector *vec, double arg_x, double arg_y, double arg_z);
+void		init_vector(t_vector *vec, double x, double y, double z);
 t_vector	add_vecs(const t_vector *a, const t_vector *b);
 t_vector	sub_vecs(const t_vector *a, const t_vector *b);
 t_vector	mult_vecs(const t_vector *a, double b);
