@@ -3,6 +3,7 @@
 #include "render.h"
 #include "vector.h"
 #include "math.h"
+#include "hooks.h"
 
 void	init_mlx(t_rt *rt_info, t_mlx *mlx)
 {
@@ -72,5 +73,6 @@ void	render(t_rt *rt_info, t_mlx *mlx_config)
 		y++;
 	}
 	mlx_put_image_to_window(mlx_config->mlx_ptr, mlx_config->win_ptr, mlx_config->image, 0, 0);
-    mlx_loop(mlx_config->mlx_ptr);
+	register_hooks(mlx_config);
+  mlx_loop(mlx_config->mlx_ptr);
 }
