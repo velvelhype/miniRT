@@ -119,7 +119,11 @@ t_front_point	colide_cam_ray_and_cylinder(t_vector cam_dir, t_vector *cam_pos, t
 		t_vector multed = mult_vecs(&cyl->orient, height_outer);
 		front_point.reflec_dir = sub_vecs(&center2p_outer, &multed);
 		normalize(&front_point.reflec_dir);
+
+		// inside-out
+		// front_point.reflec_dir = mult_vecs(&front_point.reflec_dir, -1);
 		// print_vecs(&front_point.reflec_dir);
+	
 		front_point.length = len_vector(cam_pos, &front_point.coord);
 		front_point.cam_dir = cam_dir;
 		front_point.color = cyl->color;
@@ -130,6 +134,10 @@ t_front_point	colide_cam_ray_and_cylinder(t_vector cam_dir, t_vector *cam_pos, t
 		t_vector multed = mult_vecs(&cyl->orient, height_inner);
 		front_point.reflec_dir = sub_vecs(&multed, &center2p_inner);
 		normalize(&front_point.reflec_dir);
+
+		// inside-out
+		// front_point.reflec_dir = mult_vecs(&front_point.reflec_dir, -1);
+
 		front_point.length = len_vector(cam_pos, &front_point.coord);
 		front_point.cam_dir = cam_dir;
 		front_point.color = cyl->color;
