@@ -34,6 +34,7 @@ SRCS = src/main.c \
 	src/render/is_in_shadow.c \
 	src/render/colide_ray_and_objs.c \
 	src/render/luminance.c \
+	src/render/register_hooks.c\
 	src/vector/vector.c \
 	src/vector/vector_operations.c \
 	src/vector/vector_debug.c \
