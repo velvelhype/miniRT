@@ -12,6 +12,6 @@ void	parse_camera(t_rt *rt_info, char **tokens, bool is_used)
 		tokens[4] != NULL)
 		custom_exit("Ambient light: invalid number of arguments");
 	cam->pos = parse_vector3(tokens[1]);
-	cam->orient = parse_vector3(tokens[2]);
+	cam->orient = parse_normarized_vector3(tokens[2]);
 	cam->fov = ft_atoi(tokens[3]);
 }
