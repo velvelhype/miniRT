@@ -31,6 +31,6 @@ t_vector	parse_normarized_vector3(char *vec3_str)
 	const double	norm2 = result.x * result.x + result.y * result.y + result.z * result.z;
 
 	if (fabs(norm2 - 1) > DBL_EPSILON)
-		custom_exit("Vector3: normarized vector is zero");
+		custom_exit("Vector3: input is not normarized");
 	return (result);
 }
