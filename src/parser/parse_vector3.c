@@ -1,5 +1,6 @@
 #include "parser.h"
 #include <float.h>
+#include <math.h>
 
 t_vector	parse_vector3(char *vec3_str)
 {
@@ -24,3 +25,12 @@ t_vector	parse_vector3(char *vec3_str)
 	return (result);
 }
 
+t_vector	parse_normarized_vector3(char *vec3_str)
+{
+	const t_vector	result = parse_vector3(vec3_str);
+	const double	norm2 = result.x * result.x + result.y * result.y + result.z * result.z;
+
+	if (fabs(norm2 - 1) > DBL_EPSILON)
+		custom_exit("Vector3: input is not normarized");
+	return (result);
+}
