@@ -11,7 +11,7 @@ double	sphere_discriminant(t_vector eye_dir, t_vector obj_to_eye, t_sphere *spr)
 	double	C;
 	double	D;
 
-    A = squared_norm(&eye_dir);
+	A = squared_norm(&eye_dir);
     B = 2 * dot_vecs(&eye_dir, &obj_to_eye);
     C = squared_norm(&obj_to_eye) - square(spr->diameter);
     D = square(B) - 4 * A * C;
@@ -50,12 +50,13 @@ t_front_point	colide_cam_ray_and_plane(t_vector cam_dir, t_vector *cam_pos, t_pl
 	double ray_pl_dot = dot_vecs(&multed, &plane->orient);
 	if (ray_pl_dot != (double)0)
 	{
-		double t = dot_vecs(&c_cam, &plane->orient) / ray_pl_dot;
+		double t;
+		t = dot_vecs(&c_cam, &plane->orient) / ray_pl_dot;
 		if (t < 0)
 			return (front_point);
 		multed = mult_vecs(&cam_dir, t);
 		front_point.coord = add_vecs(cam_pos, &multed);
-		if (ray_pl_dot <  (double)0)
+		if (ray_pl_dot < (double)0)
 			front_point.reflec_dir = mult_vecs(&plane->orient, -1);
 		else
 			front_point.reflec_dir = plane->orient;
@@ -72,9 +73,13 @@ t_front_point	colide_cam_ray_and_cylinder(t_vector cam_dir, t_vector *cam_pos, t
 	t_front_point front_point;
 	front_point.length = 0;
 
-    double A, B, C, D;
-	t_vector s;
-	t_vector x;
+    double 		A;
+    double 		B;
+    double 		C;
+    double 		D;
+	t_vector 	s;
+	t_vector 	x;
+
 	cross_vecs(&s, &cam_dir, &cyl->orient);
 	A = norm(&s);
 	A = square(A);
@@ -130,11 +135,11 @@ t_front_point	colide_cam_ray_and_cylinder(t_vector cam_dir, t_vector *cam_pos, t
 
 t_front_point	colide_ray_and_objs(t_vector *cam_dir, t_vector *cam_pos, t_list	*objs)
 {
-	t_front_point nearest_front = {0};
+	t_front_point	nearest_front = {0};
 	t_front_point	new_front = {0};
-	nearest_front.length = 0;
-	t_obj *obj;
+	t_obj			*obj;
 
+	nearest_front.length = 0;
 	while (objs)
 	{
 		obj = objs->content;
