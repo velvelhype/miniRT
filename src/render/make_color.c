@@ -2,6 +2,20 @@
 #include <math.h>
 #include "render.h"
 
+void	init_col(t_color *color, int r, int g, int b)
+{
+	color->red = r;
+	color->green = g;
+	color->blue = b;
+}
+
+void	init_lum(t_luminance *lum, double r, double g, double b)
+{
+	lum->red = r;
+	lum->green = g;
+	lum->blue = b;
+}
+
 void	make_lum(t_luminance *lum, t_color *color, double ratio)
 {
 	lum->red += (double)color->red / (double)255 * ratio;
@@ -11,7 +25,7 @@ void	make_lum(t_luminance *lum, t_color *color, double ratio)
 
 t_color	make_light_from_lum(t_luminance lum)
 {
-	t_color light = {0};
+	t_color	light;
 
 	light.red = (double)255 * clamp(lum.red, 0, 1);
 	light.green = (double)255 * clamp(lum.green, 0, 1);
@@ -19,16 +33,16 @@ t_color	make_light_from_lum(t_luminance lum)
 	return (light);
 }
 
-double	specular_reflection(t_vector light_dir, double dot, t_vector cam_dir, t_front_point intersection)
+double	spec_ref(t_vector l, double d, t_vector r, t_front_point is)
 {
 	t_vector	ref_dir;
 	t_vector	inv_cam_dir;
 	double		vr_dot;
 
-	ref_dir = mult_vecs(&intersection.reflec_dir, dot * 2);
-	ref_dir = sub_vecs(&ref_dir, &light_dir);
+	ref_dir = mult_vecs(&is.reflec_dir, d * 2);
+	ref_dir = sub_vecs(&ref_dir, &l);
 	normalize(&ref_dir);
-	inv_cam_dir = mult_vecs(&cam_dir, -1);
+	inv_cam_dir = mult_vecs(&r, -1);
 	normalize(&inv_cam_dir);
 	vr_dot = dot_vecs(&inv_cam_dir, &ref_dir);
 	vr_dot = clamp(vr_dot, 0, 1);

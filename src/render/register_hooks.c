@@ -17,8 +17,8 @@ static int	key_hook(int key_code, void *p)
 	return (0);
 }
 
-void	register_hooks(t_mlx *mlx_config)
+void	register_hooks(t_mlx *m)
 {
-	mlx_hook(mlx_config->win_ptr, ClientMessage, StructureNotifyMask, my_exit, NULL);
-	mlx_key_hook(mlx_config->win_ptr, key_hook, NULL);
+	mlx_hook(m->win_ptr, ClientMessage, StructureNotifyMask, my_exit, NULL);
+	mlx_key_hook(m->win_ptr, key_hook, NULL);
 }

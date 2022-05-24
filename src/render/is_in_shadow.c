@@ -25,7 +25,7 @@ bool	colide_s_ray_objs(t_list *objs, t_vector s, t_vector isp, double max)
 		if (obj->type == PLANE)
 			pt = colide_cam_ray_and_plane(s, &isp, objs->content);
 		if (obj->type == CYLINDER)
-			pt = colide_cam_ray_and_cylinder(s, &isp, objs->content);
+			pt = colide_ray_and_cyl(&s, &isp, objs->content);
 		if (pt.length && pt.length < max)
 			return (TRUE);
 		objs = objs->next;

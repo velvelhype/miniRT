@@ -20,18 +20,20 @@ void	init_mlx(t_rt *rt_info, t_mlx *m)
 	m->addr = a;
 }
 
-void	make_basis(t_coord	*coords, t_vector	*sc_center, t_vector *multed)
+void	make_basis(t_coord	*c, t_vector	*sc_center, t_vector *multed)
 {
 	t_vector	c2sc;
+	double		tan_sc;
 
-	c2sc = mult_vecs((&coords->camera.orient), coords->max_width / tan(coords->camera.fov * 0.5 * M_PI / (double)180));
-	*sc_center = add_vecs(&coords->camera.pos, &c2sc);
-	coords->sc_diff_x.x = c2sc.z / sqrt(c2sc.z * c2sc.z + c2sc.x * c2sc.x);
-	coords->sc_diff_x.y = 0;
-	coords->sc_diff_x.z = -c2sc.x / sqrt(c2sc.z * c2sc.z + c2sc.x * c2sc.x);
+	tan_sc = c->max_width / tan(c->camera.fov * 0.5 * M_PI / (double)180);
+	c2sc = mult_vecs((&c->camera.orient), tan_sc);
+	*sc_center = add_vecs(&c->camera.pos, &c2sc);
+	c->sc_diff_x.x = c2sc.z / sqrt(c2sc.z * c2sc.z + c2sc.x * c2sc.x);
+	c->sc_diff_x.y = 0;
+	c->sc_diff_x.z = -c2sc.x / sqrt(c2sc.z * c2sc.z + c2sc.x * c2sc.x);
 	*multed = mult_vecs(&c2sc, -1);
-	cross_vecs(&coords->sc_diff_y, &coords->sc_diff_x, multed);
-	normalize(&coords->sc_diff_y);
+	cross_vecs(&c->sc_diff_y, &c->sc_diff_x, multed);
+	normalize(&c->sc_diff_y);
 }
 
 void	make_screen(t_coord	*coo)
