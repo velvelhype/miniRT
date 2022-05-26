@@ -9,7 +9,6 @@
 # include "libft.h"
 # include "vector.h"
 # include <stdbool.h>
-# include <stdio.h>
 
 typedef enum e_stdio
 {
