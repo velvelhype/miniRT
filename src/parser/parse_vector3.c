@@ -10,7 +10,8 @@ t_vector	parse_vector3(char *vec3_str)
 
 	flag = true;
 	tokens = ft_split(vec3_str, ',');
-	if (tokens[0] == NULL || tokens[1] == NULL || tokens[2] == NULL || tokens[3] != NULL)
+	if (tokens[0] == NULL || tokens[1] == NULL || tokens[2] == NULL
+		|| tokens[3] != NULL)
 		custom_exit("Vector3: invalid number of arguments");
 	result.x = ft_my_atof(tokens[0], &flag);
 	if (!flag)
@@ -27,8 +28,8 @@ t_vector	parse_vector3(char *vec3_str)
 
 t_vector	parse_normarized_vector3(char *vec3_str)
 {
-	t_vector		result;
-	double	norm2;
+	t_vector	result;
+	double		norm2;
 
 	result = parse_vector3(vec3_str);
 	norm2 = result.x * result.x + result.y * result.y + result.z * result.z;
