@@ -17,7 +17,7 @@ t_front_point	colide_ray_and_objs(t_vector *r, t_vector *c, t_list	*objs)
 	{
 		obj = objs->content;
 		if (obj->type == SPHERE)
-			f = colide_cam_ray_and_sphere(r, c, objs->content);
+			f = colide_cam_ray_and_sp(r, c, objs->content);
 		if (obj->type == PLANE)
 			f = colide_cam_ray_and_plane(r, c, objs->content);
 		if (obj->type == CYLINDER)
