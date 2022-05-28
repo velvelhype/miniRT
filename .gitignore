@@ -8,6 +8,8 @@ libmlx.dylib
 libmlx_Linux.a
 *.o
 *.a
+*.memo
+output.txt
 
 /.vscode
 test/googletest-release-1.11.0

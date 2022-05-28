@@ -5,74 +5,84 @@
 #include "math.h"
 #include "hooks.h"
 
-void	init_mlx(t_rt *rt_info, t_mlx *mlx)
+void	init_mlx(t_rt *rt_info, t_mlx *m)
 {
 	char	*a;
-	printf("config mlx\n");
-    mlx->mlx_ptr = mlx_init();
-    mlx->win_ptr = mlx_new_window(mlx->mlx_ptr, rt_info->coords.max_width, rt_info->coords.max_height, "Finally?");
-    mlx->image = mlx_new_image(mlx->mlx_ptr, rt_info->coords.max_width, rt_info->coords.max_height);
-	a = mlx_get_data_addr(mlx->image, &(mlx->pix_bits), &(mlx->line_len), &(mlx->endi));
-	mlx->addr = a;
+	double	x;
+	double	y;
+
+	x = rt_info->coords.max_width;
+	y = rt_info->coords.max_height;
+	m->mlx_ptr = mlx_init();
+	m->win_ptr = mlx_new_window(m->mlx_ptr, x, y, "miniRT");
+	m->image = mlx_new_image(m->mlx_ptr, x, y);
+	a = mlx_get_data_addr(m->image, &(m->pix_bits), &(m->line_len), &(m->endi));
+	m->addr = a;
 }
 
-void	make_screen(t_coord	*coords)
+void	make_basis(t_coord	*c, t_vector	*sc_center, t_vector *multed)
 {
-	t_vector cam_to_sc_center = mult_vecs((&coords->camera.orient),
-	coords->max_width / tan(coords->camera.fov * 0.5 * M_PI / (double)180));
-	printf("dummy_make_screen\n");
-	t_vector sc_center = add_vecs(&coords->camera.pos, &cam_to_sc_center);
-	t_vector x_basis;
-	x_basis.x = cam_to_sc_center.z / sqrt(cam_to_sc_center.z * cam_to_sc_center.z + cam_to_sc_center.x * cam_to_sc_center.x);
-	x_basis.y = 0;
-	x_basis.z = -cam_to_sc_center.x / sqrt(cam_to_sc_center.z * cam_to_sc_center.z + cam_to_sc_center.x * cam_to_sc_center.x);
-	t_vector y_basis;
-	t_vector multed = mult_vecs(&cam_to_sc_center, -1);
-	cross_vecs(&y_basis, &x_basis, &multed);
-	normalize(&y_basis);
-	if (coords->camera.orient.x == 0 && coords->camera.orient.y != 0 && coords->camera.orient.z == 0)
+	t_vector	c2sc;
+	double		tan_sc;
+
+	tan_sc = c->max_width / tan(c->camera.fov * 0.5 * M_PI / (double)180);
+	c2sc = mult_vecs((&c->camera.orient), tan_sc);
+	*sc_center = add_vecs(&c->camera.pos, &c2sc);
+	c->sc_diff_x.x = c2sc.z / sqrt(c2sc.z * c2sc.z + c2sc.x * c2sc.x);
+	c->sc_diff_x.y = 0;
+	c->sc_diff_x.z = -c2sc.x / sqrt(c2sc.z * c2sc.z + c2sc.x * c2sc.x);
+	*multed = mult_vecs(&c2sc, -1);
+	cross_vecs(&c->sc_diff_y, &c->sc_diff_x, multed);
+	normalize(&c->sc_diff_y);
+}
+
+void	make_screen(t_coord	*coo)
+{
+	t_vector	sc_center;
+	t_vector	multed;
+
+	make_basis(coo, &sc_center, &multed);
+	if (!coo->camera.orient.x && coo->camera.orient.y && !coo->camera.orient.z)
 	{
-		if (coords->camera.orient.y > 0)
+		if (coo->camera.orient.y > 0)
 		{
-			init_vector(&x_basis, -1, 0, 0);
-			init_vector(&y_basis, 0, 0, -1);
+			init_vector(&coo->sc_diff_x, -1, 0, 0);
+			init_vector(&coo->sc_diff_y, 0, 0, -1);
 		}
 		else
 		{
-			init_vector(&x_basis, 1, 0, 0);
-			init_vector(&y_basis, 0, 0, 1);
+			init_vector(&coo->sc_diff_x, 1, 0, 0);
+			init_vector(&coo->sc_diff_y, 0, 0, 1);
 		}
 	}
-	multed = mult_vecs(&x_basis, coords->max_width / (double)2);
-	coords->sc_bot_left = sub_vecs(&sc_center, &multed);
-	multed = mult_vecs(&y_basis, coords->max_height / (double)2);
-	coords->sc_bot_left = sub_vecs(&coords->sc_bot_left, &multed);
-	coords->sc_diff_x = x_basis;
-	coords->sc_diff_y = y_basis;
+	multed = mult_vecs(&coo->sc_diff_x, coo->max_width / (double)2);
+	coo->sc_bot_left = sub_vecs(&sc_center, &multed);
+	multed = mult_vecs(&coo->sc_diff_y, coo->max_height / (double)2);
+	coo->sc_bot_left = sub_vecs(&coo->sc_bot_left, &multed);
 }
 
-void	render(t_rt *rt_info, t_mlx *mlx_config)
+void	render(t_rt *rt_info, t_mlx *m_con)
 {
-	printf("render\n");
-	init_mlx(rt_info, mlx_config);
+	t_color	color;
+	int		x;
+	int		y;
+
+	init_mlx(rt_info, m_con);
 	make_screen(&rt_info->coords);
-	int x;
-	int y;
 	x = 0;
 	y = 0;
 	while (y < rt_info->coords.max_height)
 	{
 		while (x < rt_info->coords.max_width)
 		{
-			t_color	color;
 			color = detect_reflection(rt_info, x, y);
-			my_pixel_put(mlx_config, x, y, color, &rt_info->coords);
+			my_pixel_put(m_con, x, y, color);
 			x++;
 		}
 		x = 0;
 		y++;
 	}
-	mlx_put_image_to_window(mlx_config->mlx_ptr, mlx_config->win_ptr, mlx_config->image, 0, 0);
-	register_hooks(mlx_config);
-  mlx_loop(mlx_config->mlx_ptr);
+	mlx_put_image_to_window(m_con->mlx_ptr, m_con->win_ptr, m_con->image, 0, 0);
+	register_hooks(m_con);
+	mlx_loop(m_con->mlx_ptr);
 }

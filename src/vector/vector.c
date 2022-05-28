@@ -4,6 +4,7 @@
 #include <math.h>
 #include <string.h>
 #include <stdlib.h>
+#include "parser.h"
 
 double	len_vector(t_vector	*v1, t_vector *v2)
 {
@@ -38,7 +39,7 @@ double	normalize(t_vector *v)
 
 	vnorm = norm(v);
 	if (vnorm == 0)
-		exit(2);
+		custom_exit("invalid object setting");
 	v->x /= vnorm;
 	v->y /= vnorm;
 	v->z /= vnorm;
