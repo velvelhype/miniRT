@@ -14,4 +14,6 @@ void	parse_camera(t_rt *rt_info, char **tokens, bool is_used)
 	cam->pos = parse_vector3(tokens[1]);
 	cam->orient = parse_normarized_vector3(tokens[2]);
 	cam->fov = ft_atoi(tokens[3]);
+	if (cam->fov < 0 || cam->fov > 180)
+		custom_exit("Camera: invalid FOV");
 }
