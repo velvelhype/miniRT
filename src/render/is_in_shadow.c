@@ -21,7 +21,7 @@ bool	colide_s_ray_objs(t_list *objs, t_vector s, t_vector isp, double max)
 	{
 		obj = objs->content;
 		if (obj->type == SPHERE)
-			pt = colide_cam_ray_and_sphere(&s, &isp, objs->content);
+			pt = colide_cam_ray_and_sp(&s, &isp, objs->content);
 		if (obj->type == PLANE)
 			pt = colide_cam_ray_and_plane(&s, &isp, objs->content);
 		if (obj->type == CYLINDER)
