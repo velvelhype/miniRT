@@ -6,7 +6,7 @@
 /*   By: akito <akito@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 11:37:34 by akito             #+#    #+#             */
-/*   Updated: 2022/04/23 15:44:05 by akito            ###   ########.fr       */
+/*   Updated: 2022/05/28 21:51:03 by akito            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <stdint.h>
 #include <stdio.h>
 
-static int		ft_isspace(int c);
+static void		read_sign(int *sign, size_t *i, char c);
 static double	ft_pow(double x, int y);
 static double	get_decimal(const char *nptr);
 static bool		check_format(const char *nptr);
@@ -31,15 +31,12 @@ double	ft_my_atof(const char *nptr, bool *flag)
 	sign = 1;
 	while (ft_isspace(nptr[i]))
 		i++;
-	if (nptr[i] == '-' || nptr[i] == '+')
-	{
-		if (nptr[i] == '-')
-			sign *= -1;
-		i++;
-	}
+	read_sign(&sign, &i, nptr[i]);
 	while (ft_isdigit(nptr[i]))
 	{
 		result = 10 * result + (nptr[i] - '0');
+		if (result > MY_DOUBLE_MAX)
+			*flag = false;
 		i++;
 	}
 	if (nptr[i] == '.')
@@ -47,9 +44,14 @@ double	ft_my_atof(const char *nptr, bool *flag)
 	return (result * sign);
 }
 
-static int	ft_isspace(int c)
+static void	read_sign(int *sign, size_t *i, char c)
 {
-	return (('\t' <= c && c <= '\r') || c == ' ');
+	if (c == '+' || c == '-')
+	{
+		if (c == '-')
+			*sign *= -1;
+		(*i)++;
+	}
 }
 
 static double	ft_pow(double x, int y)

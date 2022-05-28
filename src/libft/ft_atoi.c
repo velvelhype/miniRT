@@ -6,7 +6,7 @@
 /*   By: akito <akito@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 18:23:58 by akito             #+#    #+#             */
-/*   Updated: 2021/09/09 18:23:59 by akito            ###   ########.fr       */
+/*   Updated: 2022/05/28 21:51:40 by akito            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include <errno.h>
 int			ft_atoi(const char *nptr);
 static void	read_sign(int *sign, size_t *i, char c);
-static int	ft_isspace(int c);
 static int	return_value(long long result, int sign, int overflow);
 
 int	ft_atoi(const char *nptr)
@@ -55,11 +54,6 @@ static void	read_sign(int *sign, size_t *i, char c)
 			*sign *= -1;
 		(*i)++;
 	}
-}
-
-static int	ft_isspace(int c)
-{
-	return (('\t' <= c && c <= '\r') || c == ' ');
 }
 
 static int	return_value(long long result, int sign, int overflow)
