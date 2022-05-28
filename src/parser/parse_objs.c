@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_objs.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: akito     <akito@student.42tokyo.jp >      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/28 20:19:36 by akito             #+#    #+#             */
+/*   Updated: 2022/05/28 20:57:16 by akito            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parser.h"
 
 void	parse_sphere(t_rt *rt_info, char **tokens)
@@ -6,7 +18,8 @@ void	parse_sphere(t_rt *rt_info, char **tokens)
 	bool		flag;
 
 	flag = true;
-	if (tokens[1] == NULL || tokens[2] == NULL || tokens[3] == NULL || tokens[4] != NULL)
+	if (tokens[1] == NULL || tokens[2] == NULL || tokens[3] == NULL
+		|| tokens[4] != NULL)
 		custom_exit("Ambient light: invalid number of arguments");
 	sphere.type = SPHERE;
 	sphere.coord = parse_vector3(tokens[1]);
@@ -21,7 +34,8 @@ void	parse_plane(t_rt *rt_info, char **tokens)
 {
 	t_plane	plane;
 
-	if (tokens[1] == NULL || tokens[2] == NULL || tokens[3] == NULL || tokens[4] != NULL)
+	if (tokens[1] == NULL || tokens[2] == NULL || tokens[3] == NULL
+		|| tokens[4] != NULL)
 		custom_exit("Ambient light: invalid number of arguments");
 	plane.type = PLANE;
 	plane.coord = parse_vector3(tokens[1]);
@@ -36,8 +50,8 @@ void	parse_cylinder(t_rt *rt_info, char **tokens)
 	bool		flag;
 
 	flag = true;
-	if (tokens[1] == NULL || tokens[2] == NULL || tokens[3] == NULL ||
-		tokens[5] == NULL || tokens[6] != NULL)
+	if (tokens[1] == NULL || tokens[2] == NULL || tokens[3] == NULL
+		|| tokens[5] == NULL || tokens[6] != NULL)
 		custom_exit("Ambient light: invalid number of arguments");
 	cylinder.type = CYLINDER;
 	cylinder.coord = parse_vector3(tokens[1]);
