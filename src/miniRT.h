@@ -6,7 +6,7 @@
 /*   By: akito <akito@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 22:07:20 by akito             #+#    #+#             */
-/*   Updated: 2022/05/28 22:07:21 by akito            ###   ########.fr       */
+/*   Updated: 2022/05/28 22:40:39 by akito            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,11 @@
 # include "libft.h"
 # include "vector.h"
 # include <stdbool.h>
+
+typedef enum e_window_size {
+	WINDOW_WIDTH = 800,
+	WINDOW_HEIGHT = 800
+}							t_window_size;
 
 typedef enum e_stdio
 {
