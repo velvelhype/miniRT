@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_objs.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akito     <akito@student.42tokyo.jp >      +#+  +:+       +#+        */
+/*   By: akito <akito@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 20:19:36 by akito             #+#    #+#             */
-/*   Updated: 2022/05/28 20:57:16 by akito            ###   ########.fr       */
+/*   Updated: 2022/05/28 21:13:17 by akito            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void	parse_sphere(t_rt *rt_info, char **tokens)
 	sphere.diameter = ft_my_atof(tokens[2], &flag);
 	if (!flag)
 		custom_exit("Sphere: invalid diameter");
+	if (sphere.diameter < 0)
+		custom_exit("Sphere: diameter must be positive");
 	sphere.color = parse_color(tokens[3]);
 	ft_lstadd_back(&rt_info->objs, ft_lstnew(init_sphere(sphere)));
 }
@@ -59,9 +61,13 @@ void	parse_cylinder(t_rt *rt_info, char **tokens)
 	cylinder.diameter = ft_my_atof(tokens[3], &flag);
 	if (!flag)
 		custom_exit("Cylinder: invalid diameter");
+	if (cylinder.diameter < 0)
+		custom_exit("Cylinder: diameter must be positive");
 	cylinder.height = ft_my_atof(tokens[4], &flag);
 	if (!flag)
 		custom_exit("Cylinder: invalid height");
+	if (cylinder.height < 0)
+		custom_exit("Cylinder: height must be positive");
 	cylinder.color = parse_color(tokens[5]);
 	ft_lstadd_back(&rt_info->objs, ft_lstnew(init_cylinder(cylinder)));
 }
