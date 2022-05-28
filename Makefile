@@ -75,3 +75,5 @@ fclean: clean
 	rm -f libmlx_Linux.a
 
 re: fclean all
+
+bonus: all
