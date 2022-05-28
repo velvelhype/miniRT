@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_camera.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akito     <akito@student.42tokyo.jp >      +#+  +:+       +#+        */
+/*   By: akito <akito@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 20:19:36 by akito             #+#    #+#             */
-/*   Updated: 2022/05/28 20:58:40 by akito            ###   ########.fr       */
+/*   Updated: 2022/05/28 21:53:05 by akito            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 void	parse_camera(t_rt *rt_info, char **tokens, bool is_used)
 {
 	t_camera	*cam;
+	bool		flag;
+
+	flag = true;
 
 	if (is_used)
 		custom_exit("Camera: invalid number of arguments");
@@ -25,7 +28,9 @@ void	parse_camera(t_rt *rt_info, char **tokens, bool is_used)
 		custom_exit("Ambient light: invalid number of arguments");
 	cam->pos = parse_vector3(tokens[1]);
 	cam->orient = parse_normarized_vector3(tokens[2]);
-	cam->fov = ft_atoi(tokens[3]);
+	cam->fov = ft_my_atof(tokens[3], &flag);
+	if (!flag)
+		custom_exit("Camera: invalid FOV");
 	if (cam->fov < 0 || cam->fov > 180)
 		custom_exit("Camera: invalid FOV");
 }
