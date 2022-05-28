@@ -44,7 +44,7 @@ void			make_lum(t_luminance *lum, t_color *color, double ratio);
 t_color			make_light_from_lum(t_luminance lum);
 double			spec_ref(t_vector l, double d, t_vector r, t_front_point i);
 t_front_point	colide_ray_and_objs(t_vector *r, t_vector *c, t_list *objs);
-t_front_point	colide_cam_ray_and_sphere(t_vector *r, t_vector *c, t_sphere *s);
+t_front_point	colide_cam_ray_and_sp(t_vector *r, t_vector *c, t_sphere *s);
 t_front_point	colide_cam_ray_and_plane(t_vector *r, t_vector *c, t_plane *p);
 t_front_point	colide_ray_and_cyl(t_vector *r, t_vector *c, t_cylinder *cy);
 bool			is_in_shadow(t_rt *rt_info, t_front_point *i, t_list *objs);

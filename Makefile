@@ -65,7 +65,7 @@ dummy:
 clean:
 	make clean -C src/minilibx-linux || :
 	make clean -C $(LIBFT_DIR) || :
-	make -C $(LIBPARSER_DIR) ||  :
+	make clean -C $(LIBPARSER_DIR) ||  :
 	rm -f $(OBJS)
 
 fclean: clean

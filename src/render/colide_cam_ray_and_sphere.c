@@ -18,7 +18,7 @@ double	spr_discriminant(t_vector *eye_dir, t_vector obj_to_eye, t_sphere *s)
 	return (quadratic_equation(a, b, c, d));
 }
 
-t_front_point	colide_cam_ray_and_sphere(t_vector *r, t_vector *c, t_sphere *sp)
+t_front_point	colide_cam_ray_and_sp(t_vector *r, t_vector *c, t_sphere *sp)
 {
 	t_vector		obj_to_eye;
 	t_front_point	front_point;

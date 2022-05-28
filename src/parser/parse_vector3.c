@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_vector3.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: akito     <akito@student.42tokyo.jp >      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/28 20:56:14 by akito             #+#    #+#             */
+/*   Updated: 2022/05/28 20:56:14 by akito            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parser.h"
 #include <float.h>
 #include <math.h>
@@ -10,7 +22,8 @@ t_vector	parse_vector3(char *vec3_str)
 
 	flag = true;
 	tokens = ft_split(vec3_str, ',');
-	if (tokens[0] == NULL || tokens[1] == NULL || tokens[2] == NULL || tokens[3] != NULL)
+	if (tokens[0] == NULL || tokens[1] == NULL || tokens[2] == NULL
+		|| tokens[3] != NULL)
 		custom_exit("Vector3: invalid number of arguments");
 	result.x = ft_my_atof(tokens[0], &flag);
 	if (!flag)
@@ -27,10 +40,15 @@ t_vector	parse_vector3(char *vec3_str)
 
 t_vector	parse_normarized_vector3(char *vec3_str)
 {
-	const t_vector	result = parse_vector3(vec3_str);
-	// const double	norm2 = result.x * result.x + result.y * result.y + result.z * result.z;
+	t_vector	result;
+	double		norm2;
 
-	// if (fabs(norm2 - 1) > DBL_EPSILON)
-		// custom_exit("Vector3: input is not normarized");
+	result = parse_vector3(vec3_str);
+	norm2 = result.x * result.x + result.y * result.y + result.z * result.z;
+	if (fabs(norm2 - 1) > 0.1)
+		custom_exit("Vector3: input is not normarized");
+	result.x /= norm2;
+	result.y /= norm2;
+	result.z /= norm2;
 	return (result);
 }
