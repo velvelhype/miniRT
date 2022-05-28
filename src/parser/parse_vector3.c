@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_vector3.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akito     <akito@student.42tokyo.jp >      +#+  +:+       +#+        */
+/*   By: akito <akito@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 20:56:14 by akito             #+#    #+#             */
-/*   Updated: 2022/05/28 20:56:14 by akito            ###   ########.fr       */
+/*   Updated: 2022/05/28 22:24:14 by akito            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ t_vector	parse_normarized_vector3(char *vec3_str)
 	norm2 = result.x * result.x + result.y * result.y + result.z * result.z;
 	if (fabs(norm2 - 1) > 0.1)
 		custom_exit("Vector3: input is not normarized");
-	result.x /= norm2;
-	result.y /= norm2;
-	result.z /= norm2;
+	result.x /= sqrt(norm2);
+	result.y /= sqrt(norm2);
+	result.z /= sqrt(norm2);
 	return (result);
 }

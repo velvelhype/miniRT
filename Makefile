@@ -43,7 +43,6 @@ SRCS = src/main.c \
 	src/vector/vector_debug.c \
 	src/simple_operation/ternary_operation.c \
 	src/simple_operation/simple_operation.c \
-	# src/parser/dummy_parse.c \
 
 OBJS = $(SRCS:.c=.o)
 
@@ -77,26 +76,4 @@ fclean: clean
 
 re: fclean all
 
-# this rule should not be submitted
-
-GTEST_DIR = ./test
-GTEST_RELEASE = googletest-release-1.11.0
-GTEST = $(GTEST_DIR)/$(GTEST_RELEASE)
-
-
-$(GTEST):
-	curl -OL https://github.com/google/googletest/archive/refs/tags/release-1.11.0.tar.gz
-	tar -xvzf release-1.11.0.tar.gz $(GTEST_RELEASE)
-	rm -rf release-1.11.0.tar.gz
-	mkdir -p $(GTEST_RELEASE)/lib
-	cmake -S $(GTEST_RELEASE) -B $(GTEST_RELEASE)/lib
-	make -C $(GTEST_RELEASE)/lib
-	mv googletest-release-1.11.0 $(GTEST_DIR)
-
-test: test-build
-	./test/tester || :
-	@rm -rf ./test/tester
-
-
-test-build: $(GTEST)  $(LIBFT) $(LIBPARSER)
-	make -C ./test re
+bonus: all
