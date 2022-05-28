@@ -6,7 +6,7 @@
 /*   By: akito <akito@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 20:19:36 by akito             #+#    #+#             */
-/*   Updated: 2022/05/28 21:53:05 by akito            ###   ########.fr       */
+/*   Updated: 2022/05/28 22:02:13 by akito            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	parse_camera(t_rt *rt_info, char **tokens, bool is_used)
 	bool		flag;
 
 	flag = true;
-
 	if (is_used)
 		custom_exit("Camera: invalid number of arguments");
 	cam = &rt_info->coords.camera;
