@@ -34,7 +34,7 @@ t_color	detect_reflection(t_rt *rt_info, int x, int y)
 	{
 		t_luminance lum = {0};
 		make_lum(&lum, &rt_info->ambient.color, rt_info->ambient.br_ratio);
-		// printf("%f\n", lum.red);
+		printf("%f\n", lum.red);
 		//
 		if (!is_in_shadow(rt_info, &intersection, rt_info->objs))
 		{
@@ -48,7 +48,6 @@ t_color	detect_reflection(t_rt *rt_info, int x, int y)
 			{
 				// add difuse luminance
 				make_lum(&lum, &intersection.color, rt_info->light.br_ratio * dot);
-				// printf("rev dot:%f\n", dot);
 				//
 			}
 			if (dot > 0)
