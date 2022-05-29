@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   is_in_shadow.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akito     <akito@student.42tokyo.jp >      +#+  +:+       +#+        */
+/*   By: akito <akito@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 20:56:14 by akito             #+#    #+#             */
-/*   Updated: 2022/05/28 20:56:14 by akito            ###   ########.fr       */
+/*   Updated: 2022/05/29 17:05:10 by akito            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ bool	is_in_shadow(t_rt *rt_info, t_front_point *intersection, t_list	*objs)
 	shadow_ray = make_shadow_ray(rt_info, intersection);
 	epsilon_shadow_ray = mult_vecs(&shadow_ray, EPSILON_F);
 	isp = add_vecs(&intersection->coord, &epsilon_shadow_ray);
-	max_len = len_vector(&rt_info->light.coord, &intersection->coord) - EPSILON_F * 2;
+	max_len = len_vector(&rt_info->light.coord, &intersection->coord)
+		- EPSILON_F * 2;
 	return (colide_s_ray_objs(objs, shadow_ray, isp, max_len));
 }
